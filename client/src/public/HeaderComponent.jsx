@@ -19,7 +19,6 @@ const pages = ['Profile', 'Activity', 'Login'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -30,7 +29,7 @@ function ResponsiveAppBar() {
 
 
   return (
-    <AppBar position="static" sx={{
+    <AppBar position="fixed" sx={{
       backgroundColor:'white',
       boxShadow: 0, 
       height:90, 
@@ -107,7 +106,7 @@ function ResponsiveAppBar() {
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'center',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}

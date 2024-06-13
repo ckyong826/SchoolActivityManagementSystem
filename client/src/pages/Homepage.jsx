@@ -2,15 +2,42 @@ import React from 'react';
 import ShuffleHero from '../public/HeroComponent';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+
+const dummyData = [
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+  { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
+  { tag: "Sports", title: "Dummy Event 2", description: "This is the description for Dummy Event 2" },
+  { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
+];
 
 const Homepage = () => {
   return (
-    <Box >
+    <Box>
       <ResponsiveAppBar/>
       <ShuffleHero/>
-      <SquishyCard/>
-      <SquishyCard/>
+      <Box sx={{height:80, display:"flex", justifyContent:{xs:'center',lg:'start'},alignContent:'center'}}>
+        <p className="text-4xl font-bold font-mono text-center py-12 px-36">Features</p>
+      </Box>
+      <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 gap-4 max-w-8xl mx-auto px-4 py-8">
+        {dummyData.map((data, index) => (
+          <SquishyCard key={index} {...data} />
+        ))}
+      </Box>
     </Box>
   );
 };
