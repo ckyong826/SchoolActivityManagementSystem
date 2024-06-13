@@ -33,7 +33,7 @@ function ResponsiveAppBar() {
     <AppBar position="static" sx={{
       backgroundColor:'white',
       boxShadow: 0, 
-      height:80, 
+      height:90, 
       justifyContent:'center',
       px:2
       }}>

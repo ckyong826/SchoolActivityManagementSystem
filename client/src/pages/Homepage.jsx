@@ -2,15 +2,16 @@ import React from 'react';
 import ShuffleHero from '../public/HeroComponent';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
+import { Box } from '@mui/material';
 
 const Homepage = () => {
   return (
-    <div>
+    <Box >
       <ResponsiveAppBar/>
       <ShuffleHero/>
       <SquishyCard/>
       <SquishyCard/>
-    </div>
+    </Box>
   );
 };
 

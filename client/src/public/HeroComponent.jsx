@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 const ShuffleHero = () => {
   return (
-    <section className="w-full h-full px-32 max-md:px-12 py-12  grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
+    <section className="w-full h-[90vh] px-32 max-md:px-12 py-10 grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
       <div className="text-start max-md:order-last">
         <span className="block mb-4 text-xl md:text-lg text-indigo-500 font-medium ml-1">
           Better every day
@@ -139,7 +139,7 @@ const ShuffleGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-4 grid-rows-4 h-[750px] max-md:h-[300px] gap-1">
+    <div className="grid grid-cols-4 grid-rows-4 h-[680px] max-md:h-[300px] gap-1">
       {squares.map((sq) => sq)}
     </div>
   );
