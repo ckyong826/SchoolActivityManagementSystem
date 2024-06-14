@@ -14,7 +14,7 @@ const ShuffleHero = () => {
         <p className="text-lg md:text-2xl text-slate-700 my-4 md:my-6">
           The best school activity registration website. Students can find the latest activity here and join it!
         </p>
-        <button className="bg-indigo-500 text-white font-medium py-4 px-6 rounded transition-all hover:bg-indigo-600 active:scale-95">
+        <button className="bg-indigo-500 text-white font-medium py-4 px-6 rounded transition-all hover:bg-indigo-600 active:scale-95" onClick={() => window.scrollTo({ top: document.getElementById('activities').offsetTop, behavior: 'smooth' })}>
           Join Activity
         </button>
       </div>

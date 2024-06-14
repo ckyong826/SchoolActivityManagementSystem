@@ -3,6 +3,7 @@ import ShuffleHero from '../public/HeroComponent';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
 import { Box, Typography } from '@mui/material';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -25,20 +26,33 @@ const dummyData = [
   { tag: "Music", title: "Dummy Event 3", description: "This is the description for Dummy Event 3" },
 ];
 
+const theme = createTheme({
+  palette: {
+    indigo: {
+      main: '#6366F1',
+      light: '#9CA3AF',
+      dark: '#4f46e5',
+      contrastText: '#fff',
+    },
+  },
+});
+
 const Homepage = () => {
   return (
-    <Box>
+    <ThemeProvider theme={theme}>
+    <Box >
       <ResponsiveAppBar/>
       <ShuffleHero/>
-      <Box sx={{height:80, display:"flex", justifyContent:{xs:'center',lg:'start'},alignContent:'center'}}>
-        <p className="text-4xl font-bold font-mono text-center py-12 px-36">Features</p>
+      <Box id="activities" sx={{height:80, display:"flex", justifyContent:{xs:'center',lg:'start'},alignContent:'center'}}>
+        <p className="text-4xl font-bold font-mono text-center py-12 px-36" >Features</p>
       </Box>
-      <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 gap-4 max-w-8xl mx-auto px-4 py-8">
+      <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 gap-4 max-w-8xl mx-auto px-4 py-8" >
         {dummyData.map((data, index) => (
           <SquishyCard key={index} {...data} />
         ))}
       </Box>
     </Box>
+    </ThemeProvider>
   );
 };
 

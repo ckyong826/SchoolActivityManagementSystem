@@ -1,4 +1,7 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import ModalActivityComponent from "./modal/ModalActivityComponent";
+
 
 const SquishyCard = (props) => {
   return (
@@ -11,6 +14,12 @@ const SquishyCard = (props) => {
 };
 
 const Card = ({props}) => {
+  const [open, handleOpen] = useState(false);
+  const [step, setStep] = useState(0);
+  const setOpen = () => {
+    handleOpen(true);
+    setStep(0);
+  }
   return (
     <motion.div
       whileHover="hover"
@@ -49,9 +58,10 @@ const Card = ({props}) => {
           {props.description}
         </p>
       </div>
-      <button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
+      <button onClick={setOpen} className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
         Join Now
       </button>
+      <ModalActivityComponent open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} />
       <Background />
     </motion.div>
   );
