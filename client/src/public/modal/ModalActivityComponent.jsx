@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import CustomizedSteppers from "./widget/StepperComponent";
+import CustomizedSteppers from "./widget/useStepper";
 import ModalDescriptionComponent from "./widget/ModalDescriptionComponent";
 import ModalFormComponent from "./widget/ModalFormComponent";
 import ModalCompletionComponent from "./widget/ModalCompletionComponent";
-import ButtonComponent from "./widget/ButtonComponent";
+import ButtonComponent from "./widget/useButton";
 
 const ModalActivityComponent= ({ open, handleClose, step, setStep }) => {
   useEffect(() => {
@@ -23,7 +22,7 @@ const ModalActivityComponent= ({ open, handleClose, step, setStep }) => {
       <Box sx={{width:'60%',height:'80%'}} className="bg-white rounded-2xl p-12 flex flex-col items-center">
         <CustomizedSteppers step={step} />
         {step === 0 && <> <ModalDescriptionComponent />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
-        {step === 1 && <> <ModalFormComponent />  <ButtonComponent setStep={setStep} prev={0} next={2}/> </>}
+        {step === 1 && <> <ModalFormComponent step={step} setStep={setStep} />  </>}
         {step === 2 && <> <ModalCompletionComponent/> <ButtonComponent setStep={setStep} prev={1} next={4}/> </>}
       </Box>
     </Modal>

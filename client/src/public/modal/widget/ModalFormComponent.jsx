@@ -1,28 +1,83 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import React from 'react';
+import { Box, Grid, FormControlLabel, Checkbox, FormLabel, OutlinedInput } from '@mui/material';
+import styled from '@mui/material/styles/styled';
+import ButtonComponent from './useButton';
+import useForm from './useForm';
 
+const FormGrid = styled(Grid)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
 
-const ModalFormComponent = ({ open, handleClose }) => {
+const ModalFormComponent = (props) => {
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    matrikNumber: '',
+    academicYear: '',
+    phoneNumber: '',
+    dateOfBirth: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
+    saveAddress: false,
+  };
+
+  const {
+    formValues,
+    formErrors,
+    handleInputChange,
+    handleSubmit,
+  } = useForm(initialValues);
+
   return (
-    <Box sx={{ width:'90%',height:'75%',overflow:'hidden',overflowY:'scroll' }} className="mt-8 pt-2 px-8 scrollbar-hide" >
-      <Typography variant="h3" sx={{color:'black', fontWeight:700, fontFamily:'serif'}}>Git and Github Workshop</Typography>
-      <Typography variant="h8" className='pl-2' sx={{color:'grey', fontWeight:400, fontFamily:'serif'}}>22 June 2024 - 24 June 2024</Typography>
-      <Typography variant="h4" className='pt-8 ' sx={{color:'black', fontWeight:600, fontFamily:'serif'  }}>Venue</Typography>
-      <Typography variant="h8" className='pl-2' sx={{color:'grey', fontWeight:400 , fontFamily:'serif'}}>N28, UTM</Typography>
-      <Typography variant="h4" className='pt-8 ' sx={{color:'black', fontWeight:600, fontFamily:'serif'  }}>Description</Typography>
-      <Box className='pl-2'>
-      <Typography variant="h8" sx={{color:'grey', fontWeight:400 , fontFamily:'serif'}}>
-      Introducing the X5000 Ultra Blender – the ultimate kitchen companion for all your blending needs. Engineered with precision and designed for efficiency, the X5000 Ultra Blender boasts a powerful 1200-watt motor that effortlessly crushes ice, blends fruits, and purees vegetables to perfection. Its sleek, modern design is complemented by a robust stainless-steel finish, ensuring durability and style in any kitchen setting.
-
-      Equipped with 10 speed settings and a pulse function, the X5000 provides complete control over your blending consistency, from smooth soups to chunky salsas. The large 64-ounce BPA-free pitcher is perfect for preparing large batches of smoothies, soups, and sauces, making it ideal for families or entertaining guests.
-
-      Safety is paramount with the X5000 Ultra Blender. It features non-slip feet, a secure lid with a convenient pour spout, and an automatic shut-off function to prevent overheating. Cleaning is a breeze with the detachable blades and dishwasher-safe components.
-
-      Experience the versatility and reliability of the X5000 Ultra Blender, and elevate your culinary creations to new heights. Whether you're a seasoned chef or a kitchen novice, this blender is your ticket to delicious and nutritious meals with ease.
-      </Typography>
+    <>
+      <Box sx={{ width: '90%', height: '75%', overflow: 'hidden', overflowY: 'scroll' }} className="mt-8 pt-2 px-8 scrollbar-hide">
+        <Grid container spacing={3}>
+          {[
+            { id: 'first-name', name: 'firstName', label: 'First name', placeholder: 'John' },
+            { id: 'lastName', name: 'lastName', label: 'Last name', placeholder: 'Snow' },
+            { id: 'matrikNumber', name: 'matrikNumber', label: 'Matrik Number', placeholder: 'A22EC1234' },
+            { id: 'academicYear', name: 'academicYear', label: 'Academic Year', placeholder: 'Year 2' },
+            { id: 'phoneNumber', name: 'phoneNumber', label: 'Phone Number', placeholder: '60123456789' },
+            { id: 'dateOfBirth', name: 'dateOfBirth', label: 'Date Of Birth', placeholder: '26/08/2003' },
+            { id: 'address', name: 'address', label: 'Address', placeholder: 'Apartment, suite, unit, etc. (optional)' },
+            { id: 'city', name: 'city', label: 'City', placeholder: 'New York' },
+            { id: 'state', name: 'state', label: 'State', placeholder: 'NY' },
+            { id: 'zip', name: 'zip', label: 'Zip / Postal code', placeholder: '12345' },
+            { id: 'country', name: 'country', label: 'Country', placeholder: 'United States' },
+          ].map(field => (
+            <FormGrid key={field.id} item xs={12} md={6}>
+              <FormLabel htmlFor={field.id} required>{field.label}</FormLabel>
+              <OutlinedInput
+                id={field.id}
+                name={field.name}
+                type="text"
+                placeholder={field.placeholder}
+                autoComplete={field.name}
+                required
+                color="indigo"
+                value={formValues[field.name]}
+                onChange={handleInputChange}
+                error={Boolean(formErrors[field.name])}
+              />
+              {formErrors[field.name] && (
+                <p style={{ color: 'red', fontSize: '12px' }}>{formErrors[field.name]}</p>
+              )}
+            </FormGrid>
+          ))}
+          <FormGrid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox color="indigo" name="saveAddress" checked={formValues.saveAddress} onChange={handleInputChange} />}
+              label="Use this address for event details"
+            />
+          </FormGrid>
+        </Grid>
       </Box>
-    </Box>
+      <ButtonComponent setStep={props.setStep} handleSubmit={(e) => handleSubmit(e, () => props.setStep(2))} prev={0} next={2} />
+    </>
   );
 };
 
