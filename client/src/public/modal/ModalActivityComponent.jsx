@@ -12,7 +12,7 @@ const ModalActivityComponent= ({ open, handleClose, step, setStep }) => {
     if (step === -1){
       handleClose();
     }
-    if (step === 4){
+    if (step === 3){
       handleClose();
     }
   });
@@ -23,7 +23,7 @@ const ModalActivityComponent= ({ open, handleClose, step, setStep }) => {
         <CustomizedSteppers step={step} />
         {step === 0 && <> <ModalDescriptionComponent />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
         {step === 1 && <> <ModalFormComponent step={step} setStep={setStep} />  </>}
-        {step === 2 && <> <ModalCompletionComponent/> <ButtonComponent setStep={setStep} prev={1} next={4}/> </>}
+        {step === 2 && <> <ModalCompletionComponent/> <ButtonComponent setStep={setStep} prev={1} next={3}/> </>}
       </Box>
     </Modal>
   );

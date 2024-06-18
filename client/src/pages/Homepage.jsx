@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShuffleHero from '../public/HeroComponent';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
 import { Box, Typography } from '@mui/material';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
+import {Skeleton } from '@mui/material';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -38,6 +39,13 @@ const theme = createTheme({
 });
 
 const Homepage = () => {
+  const [loading, setLoading] = React.useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
   return (
     <ThemeProvider theme={theme}>
     <Box >
@@ -47,9 +55,16 @@ const Homepage = () => {
         <p className="text-4xl font-bold font-mono text-center py-12 px-36" >Features</p>
       </Box>
       <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 gap-4 max-w-8xl mx-auto px-4 py-8" >
-        {dummyData.map((data, index) => (
+        {loading?dummyData.map((data, index) => (
+          <Skeleton key={index} variant="rounded" className='rounded border-2 mx-auto w-fit'  >
+            <SquishyCard key={index} {...data} />
+          </Skeleton>
+        )):
+        dummyData.map((data, index) => (
           <SquishyCard key={index} {...data} />
-        ))}
+        ))
+        
+      }
       </Box>
     </Box>
     </ThemeProvider>
