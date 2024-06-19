@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShuffleHero from '../public/HeroComponent';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
 import { Box, Typography } from '@mui/material';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -38,6 +39,7 @@ const theme = createTheme({
 });
 
 const Homepage = () => {
+  const user = useGetCurrentUser();
   return (
     <ThemeProvider theme={theme}>
     <Box >

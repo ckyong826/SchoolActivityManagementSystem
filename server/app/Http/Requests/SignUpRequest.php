@@ -30,6 +30,5 @@ class SignUpRequest extends FormRequest
                 Password::min(5)
             ]
         ];
-
     }
 }
