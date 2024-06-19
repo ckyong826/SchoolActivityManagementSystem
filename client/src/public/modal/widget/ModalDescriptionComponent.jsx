@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 
 const ModalDescriptionComponent = (props) => {
   return (
-    <Box sx={{ width:'90%',height:'75%',overflow:'hidden',overflowY:'scroll' }} className="mt-8 pt-2 px-8 scrollbar-hide" >
+    <Box sx={{ width:'90%',height:'75%',overflow:'hidden',overflowY:'scroll' }} className="mt-8 my-4 px-8 max-md:px-2 scrollbar-hide" >
       <Typography variant="h3" sx={{color:'black', fontWeight:700, fontFamily:'serif'}}>Git and Github Workshop</Typography>
       <Typography variant="h8" className='pl-2' sx={{color:'grey', fontWeight:400, fontFamily:'serif'}}>22 June 2024 - 24 June 2024</Typography>
       <Typography variant="h4" className='pt-8 ' sx={{color:'black', fontWeight:600, fontFamily:'serif'  }}>Venue</Typography>

@@ -34,7 +34,7 @@ const ModalFormComponent = (props) => {
 
   return (
     <>
-      <Box sx={{ width: '90%', height: '75%', overflow: 'hidden', overflowY: 'scroll' }} className="mt-8 pt-2 px-8 scrollbar-hide">
+      <Box sx={{ width: '90%', height: '75%', overflow: 'hidden', overflowY: 'scroll' }} className="mt-8 my-4 px-8 px-8 max-md:px-2  scrollbar-hide">
         <Grid container spacing={3}>
           {[
             { id: 'first-name', name: 'firstName', label: 'First name', placeholder: 'John' },

@@ -61,7 +61,8 @@ const Card = ({props}) => {
       <button onClick={setOpen} className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
         Join Now
       </button>
-      <ModalActivityComponent open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} />
+      <ModalActivityComponent open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} setRender={props.setRender}/>
+        
       <Background />
     </motion.div>
   );
