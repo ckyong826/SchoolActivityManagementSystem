@@ -3,9 +3,9 @@ import { React } from 'react';
 import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
 import Users from "../pages/Users";
-import Signup from "../pages/Signup";
 import DefaultLayout from "../public/layout/DefaultLayout";
 import GuestLayout from "../public/layout/GuestLayout";
+import Signup from "../pages/Signup";
 
 // export default function Router() {
 //   return (

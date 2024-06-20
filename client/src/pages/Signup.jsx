@@ -1,10 +1,35 @@
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import {TextField, Button, Alert} from '@mui/material';
-import { useRef, useState } from 'react';
+import { Alert } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axiosClient from '../axios-client';
+import { useRef, useState } from 'react';
 import { useStateContext } from '../contexts/contextProvider';
 
-const Signup = () => {
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="/">
+                School Activty Management System
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
+
+const defaultTheme = createTheme();
+
+export default function Signup() {
     const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -12,8 +37,8 @@ const Signup = () => {
     const [formErrors, setFormErrors] = useState(null);
     const {setUser, setToken} = useStateContext();
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         const payload = {
             name: nameRef.current.value,
             email: emailRef.current.value,
@@ -32,26 +57,92 @@ const Signup = () => {
                     setFormErrors(response.data.errors);
                 }
             })
-    }
+    };
+
     return (
-        <>
-            <form action="POST" onSubmit={onSubmit}>
-                <Box className="flex items-center justify-center flex-col gap-2">  
-                        <h1>Sign up</h1>       
-                        {formErrors && <Alert severity="error">
+
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign Up
+                </Typography>
+                {formErrors && <Alert severity="error">
                           {Object.keys(formErrors).map(key => (
                             <p key={key}>{formErrors[key]}</p>
                           ))}  
                         </Alert>} 
-                        <TextField id="outlined-basic" label="Name" variant="outlined" inputRef={nameRef}/>
-                        <TextField id="outlined-basic" label="Email" variant="outlined" name="email" inputRef={emailRef}/>
-                        <TextField id="outlined-basic" label="Password" variant="outlined" type="password" inputRef={passwordRef}/>
-                        <TextField id="outlined-basic" label="Password Confirmation" variant="outlined" type="password" inputRef={passwordConfirmationRef}/>
-                        <Button type='submit' variant='contained'>Sign up</Button>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                        inputRef={nameRef}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        inputRef={emailRef}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        inputRef={passwordRef}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        inputRef={passwordConfirmationRef}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Sign Up
+                    </Button>
+                    <Grid container justifyContent={'center'}>
+                        <Grid item>
+                            <Link href="/login" variant="body2">
+                                {"Already have an account? Log In"}
+                            </Link>
+                        </Grid>
+                    </Grid>
                 </Box>
-            </form>
-        </>
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
     );
 }
- 
-export default Signup ;
