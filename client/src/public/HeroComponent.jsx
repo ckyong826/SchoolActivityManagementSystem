@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 const ShuffleHero = () => {
   return (
-    <section className="w-full mt-[90px] px-32 max-md:px-12 py-10 grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
+    <section className="w-full mt-[90px] px-32 max-lg:px-12 py-10 grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
       <div className="text-start max-md:order-last">
         <span className="block mb-4 text-xl md:text-lg text-indigo-500 font-medium ml-1">
           Better every day

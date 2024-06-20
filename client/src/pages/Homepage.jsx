@@ -5,6 +5,8 @@ import SquishyCard from '../public/CardComponent';
 import { Box, Typography } from '@mui/material';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
+import {Skeleton } from '@mui/material';
+import Notification from '../public/modal/widget/useNotification';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -40,20 +42,38 @@ const theme = createTheme({
 
 const Homepage = () => {
   const user = useGetCurrentUser();
+  const [loading, setLoading] = React.useState(false);
+  const [render, setRender] = React.useState(false);
+  const hideRender = () => {
+    setRender(false);
+  }
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
   return (
     <ThemeProvider theme={theme}>
     <Box >
       <ResponsiveAppBar/>
       <ShuffleHero/>
-      <Box id="activities" sx={{height:80, display:"flex", justifyContent:{xs:'center',lg:'start'},alignContent:'center'}}>
+      <Box id="activities" sx={{height:80, display:"flex", justifyContent:{xs:'center',xl:'start'},alignContent:'center'}}>
         <p className="text-4xl font-bold font-mono text-center py-12 px-36" >Features</p>
       </Box>
-      <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 gap-4 max-w-8xl mx-auto px-4 py-8" >
-        {dummyData.map((data, index) => (
-          <SquishyCard key={index} {...data} />
-        ))}
+      <Box className="w-[80%] grid grid-cols-4 max-md:grid-cols-1 max-lg:grid-cols-2 max-2xl:grid-cols-3 gap-4 max-w-8xl mx-auto px-4 py-8" >
+        {loading?dummyData.map((data, index) => (
+          <Skeleton key={index} variant="rounded" className='rounded border-2 mx-auto w-fit'  >
+            <SquishyCard key={index} {...data} setRender={setRender}/>
+          </Skeleton>
+        )):
+        dummyData.map((data, index) => (
+          <SquishyCard key={index} {...data} setRender={setRender}/>
+        ))
+      }
       </Box>
     </Box>
+    <Notification text="The activity is registered !" render={render} hideRender={hideRender}/>
     </ThemeProvider>
   );
 };
