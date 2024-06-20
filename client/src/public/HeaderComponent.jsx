@@ -12,12 +12,20 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from 'react-router-dom';
+import { useStateContext } from '../contexts/contextProvider';
+import axiosClient from '../axios-client';
 
 
-const pages = ['Profile', 'Activity', 'Login'];
+const pages = ['Activity'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigate = useNavigate();
+  const { user, token, setUser, setToken } = useStateContext();
+
+  const userLoggedIn = !!token ? true : false;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -27,15 +35,23 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
+  const onLogout = (e) => {
+    e.preventDefault();
+    axiosClient.post('/logout')
+      .then(()=>{
+        setUser({});
+        setToken(null)
+      })
+  }
 
   return (
     <AppBar position="fixed" sx={{
-      backgroundColor:'white',
-      boxShadow: 0, 
-      height:90, 
-      justifyContent:'center',
-      px:2
-      }}>
+      backgroundColor: 'white',
+      boxShadow: 0,
+      height: 90,
+      justifyContent: 'center',
+      px: 2
+    }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <Typography
@@ -78,11 +94,40 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{  color: 'black', display: 'block', fontSize:18,ml:3 }}
+                sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
               >
                 {page}
               </Button>
             ))}
+            {
+              userLoggedIn
+                ?
+                <Box sx={{display: { xs: 'none', md: 'flex' }}}>
+                  <Button
+                    key={"Logout"}
+                    onClick={(e) => onLogout(e)}
+                    sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                  >
+                    Logout
+                  </Button>
+                  <Button
+                    key={"Profile"}
+                    onClick={() => navigate("/profile")}
+                    sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                  >
+                    <AccountCircleIcon sx={{ color: 'black' }} fontSize='large' />
+                  </Button>
+                </Box>
+
+                :
+                <Button
+                  key={"Login"}
+                  onClick={() => navigate("/login")}
+                  sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                >
+                  Login
+                </Button>
+            }
           </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
@@ -111,7 +156,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                color:'black',
+                color: 'black',
                 display: { xs: 'block', md: 'none' },
               }}
             >
@@ -120,9 +165,12 @@ function ResponsiveAppBar() {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={"Login"}>
+                <Typography textAlign="center">Login</Typography>
+              </MenuItem>
             </Menu>
           </Box>
-          
+
         </Toolbar>
       </Container>
     </AppBar>

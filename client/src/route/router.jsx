@@ -6,7 +6,7 @@ import Users from "../pages/Users";
 import DefaultLayout from "../public/layout/DefaultLayout";
 import GuestLayout from "../public/layout/GuestLayout";
 import Signup from "../pages/Signup";
-
+import Profile from "../pages/Profile";
 // export default function Router() {
 //   return (
 //     <>
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <DefaultLayout/>,
     children: [
+      {
+        path: '/profile',
+        element: <Profile/>
+      },
       {
         path: '/users',
         element: <Users/>
