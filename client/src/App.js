@@ -1,23 +1,22 @@
 import logo from './logo.svg';
+import Router from "./route/router";
 import './App.css';
+import useGetCurrentUser from './hooks/useGetCurrentUser';
+import { useEffect } from 'react';
+import { useStateContext } from './contexts/contextProvider';
+import userConsts from './consts/common-consts';
 
 function App() {
+  const { setIsAdmin } = useStateContext();
+  const user = useGetCurrentUser();
+  console.log(user)
+  useEffect(()=>{
+    const isAdmin = user && user?.role == userConsts.ADMIN;
+    setIsAdmin(isAdmin);
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" >
+        <Router />
     </div>
   );
 }
