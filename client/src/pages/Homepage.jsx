@@ -4,8 +4,10 @@ import ResponsiveAppBar from '../public/HeaderComponent';
 import SquishyCard from '../public/CardComponent';
 import { Box, Typography } from '@mui/material';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import {Skeleton } from '@mui/material';
 import Notification from '../public/modal/widget/useNotification';
+import { useStateContext } from '../contexts/contextProvider';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -40,6 +42,7 @@ const theme = createTheme({
 });
 
 const Homepage = () => {
+  const {user} = useStateContext();
   const [loading, setLoading] = React.useState(false);
   const [render, setRender] = React.useState(false);
   const hideRender = () => {
@@ -51,6 +54,7 @@ const Homepage = () => {
       setLoading(false);
     }, 2000);
   }, []);
+  console.log(user)
   return (
     <ThemeProvider theme={theme}>
     <Box >
