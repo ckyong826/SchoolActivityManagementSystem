@@ -10,12 +10,12 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::get('api/user', function (Request $request) {
+    Route::get('/api/user', function (Request $request) {
         return $request->user();
     });
     Route::post('/api/logout', [AuthController::class, "logout"]);
+    Route::apiResource('/api/users', UserController::class);
 });
 // Route::middleware('auth:sanctum')->get('/api/users' , [UserController::class, 'index']);
-Route::get('/api/users',[UserController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);

@@ -24,9 +24,7 @@ class AppServiceProvider extends ServiceProvider
         // TESTING API ENDPOINT 
         // Remove during production
         VerifyCsrfToken::except([
-            '/api/signup',
-            '/api/logout',
-            '/api/login',
+            '*',
         ]);
     }
     public function map()

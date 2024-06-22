@@ -16,6 +16,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../contexts/contextProvider';
 import axiosClient from '../axios-client';
+import useGetCurrentUser from '../hooks/useGetCurrentUser';
+import userConsts from '../consts/common-consts';
 
 
 const pages = ['Activity'];
@@ -23,9 +25,11 @@ const pages = ['Activity'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
-  const { user, token, setUser, setToken } = useStateContext();
+  const { token, setToken, user, setUser } = useStateContext();
+  // const user = useGetCurrentUser();
 
   const userLoggedIn = !!token ? true : false;
+  const isAdmin = user && user?.role == userConsts.ADMIN;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,7 +42,7 @@ function ResponsiveAppBar() {
   const onLogout = (e) => {
     e.preventDefault();
     axiosClient.post('/logout')
-      .then(()=>{
+      .then(() => {
         setUser({});
         setToken(null)
       })
@@ -100,9 +104,23 @@ function ResponsiveAppBar() {
               </Button>
             ))}
             {
+              isAdmin
+                ?
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                  <Button
+                    key={"Users"}
+                    onClick={() => navigate("/users")}
+                    sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                  >
+                    USERS
+                  </Button>
+                </Box>
+                : null
+            }
+            {
               userLoggedIn
                 ?
-                <Box sx={{display: { xs: 'none', md: 'flex' }}}>
+                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                   <Button
                     key={"Logout"}
                     onClick={(e) => onLogout(e)}
