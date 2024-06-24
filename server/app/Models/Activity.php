@@ -9,13 +9,23 @@ class Activity extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'activityID';
+
     protected $fillable = [
         'activityName',
         'description',
         'venue',
+        'category',
         'startDateTime',
         'endDateTime',
         'maxParticipants',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'registrations', 'activityID', 'userID')
+                    ->withTimestamps()
+                    ->withPivot('regDate');
+    }
 }
 

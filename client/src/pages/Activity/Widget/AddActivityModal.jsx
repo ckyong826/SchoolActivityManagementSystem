@@ -20,6 +20,7 @@ const AddActivityModal = ({
             endDateTime: '',
             maxParticipants: '',
             venue: '',
+            category: '',
         });
     }
 

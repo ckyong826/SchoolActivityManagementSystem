@@ -20,4 +20,11 @@ Route::middleware('auth:sanctum')->group(function(){
 // Route::middleware('auth:sanctum')->get('/api/users' , [UserController::class, 'index']);
 Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);
-Route::post('/api/activities', [ActivityController::class, 'store']);
+
+Route::prefix('/api/activities')->group(function () {
+    Route::get('/', [ActivityController::class, 'index'])->name('activities.index');
+    Route::get('/{activityID}', [ActivityController::class, 'show'])->name('activities.show');
+    Route::post('/', [ActivityController::class, 'store'])->name('activities.store');
+    Route::put('/{activityID}', [ActivityController::class, 'update'])->name('activities.update');
+    Route::delete('/{activityID}', [ActivityController::class, 'destroy'])->name('activities.destroy');
+});

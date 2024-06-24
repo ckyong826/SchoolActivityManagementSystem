@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, TextField } from "@mui/material";
+import { Box, Typography, Button, TextField, Select, MenuItem, InputLabel, FormControl, FormHelperText } from "@mui/material";
+
 
 const ActivityFormWidget = ({
   initialData,
@@ -13,13 +14,18 @@ const ActivityFormWidget = ({
 
   const validateInput = (name, value) => {
     let error = '';
-
+  
+    if (typeof value !== 'string') {
+      value = value.toString();
+    }
+  
     if (value.trim() === '') {
       error = 'This field is required';
     }
-
+  
     return error;
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +48,7 @@ const ActivityFormWidget = ({
   };
 
   const handleFormSubmit = () => {
-    const fieldsToValidate = ['activityName', 'description', 'venue', 'startDateTime', 'endDateTime', 'maxParticipants'];
+    const fieldsToValidate = ['activityName', 'description', 'venue', 'category' ,'startDateTime', 'endDateTime', 'maxParticipants'];
     let allValid = true;
     const newErrors = {};
 
@@ -79,6 +85,7 @@ const ActivityFormWidget = ({
       <Typography variant="h6">
         {isEditMode ? 'Edit Activity' : 'Add Activity'}
       </Typography>
+      {console.log('formValues:', typeof formValues.activityName)}
       <TextField
         margin="normal"
         fullWidth
@@ -114,6 +121,21 @@ const ActivityFormWidget = ({
         error={Boolean(errors.venue)}
         helperText={errors.venue}
       />
+      <FormControl fullWidth margin="normal" error={Boolean(errors.department)}>
+        <InputLabel id="category">Category</InputLabel>
+        <Select
+          labelId="category-label"
+          label="Category"
+          name="category"
+          value={formValues.category}
+          onChange={handleInputChange}
+        >
+          <MenuItem value="Seminar">Seminar</MenuItem>
+          <MenuItem value="Workshop">Workshop</MenuItem>
+          <MenuItem value="Talk">Talk</MenuItem>
+        </Select>
+        {errors.category && <FormHelperText>{errors.category}</FormHelperText>}
+      </FormControl>
       <TextField
         margin="normal"
         fullWidth

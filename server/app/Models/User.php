@@ -28,4 +28,11 @@ class User extends Authenticatable
         'password',
         'role',
     ];
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'registrations', 'userID', 'activityID')
+                    ->withTimestamps()
+                    ->withPivot('regDate');
+    }
 }
