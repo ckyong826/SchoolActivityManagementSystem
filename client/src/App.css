@@ -36,3 +36,70 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+.custom-overline {
+  position: relative;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5rem; /* Adjust based on your text size */
+  max-height: calc(3 * 1.5rem); /* 3 lines * line-height */
+}
+
+.custom-overline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.custom-overline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: white;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.custom-overline-title {
+  position: relative;
+  display: -webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 3.75rem; /* Adjust based on your text size */
+  max-height: calc(2 * 3.75rem); /* 3 lines * line-height */
+}
+
+.custom-overline-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.custom-overline-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: white;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+

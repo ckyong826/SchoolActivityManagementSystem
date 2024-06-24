@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ModalActivityComponent from "./modalComponent/ModalActivityComponent";
-
+import '../../App.css';
 
 const SquishyCard = (props) => {
   return (
@@ -36,7 +36,7 @@ const Card = ({props}) => {
     >
       <div className="relative z-10 text-white">
         <span className="mb-3 block w-fit rounded-full bg-white/30 px-3 py-0.5 text-sm font-light text-white">
-          {props.tag}
+          {props.category}
         </span>
         <motion.span
           initial={{ scale: 0.85 }}
@@ -49,19 +49,19 @@ const Card = ({props}) => {
             duration: 1,
             ease: "backInOut",
           }}
-          className="my-2 block top-left font-mono text-6xl font-black leading-[1.2]"
+          className="my-2 block top-left font-mono text-6xl font-black leading-[1.2] custom-overline-title"
         >
-          {props.title}
+          {props.activityName}
 
         </motion.span>
-        <p>
+        <p className="custom-overline">
           {props.description}
         </p>
       </div>
       <button onClick={setOpen} className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
         Join Now
       </button>
-      <ModalActivityComponent open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} setRender={props.setRender}/>
+      <ModalActivityComponent prop={props} open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} setRender={props.setRender}/>
         
       <Background />
     </motion.div>
