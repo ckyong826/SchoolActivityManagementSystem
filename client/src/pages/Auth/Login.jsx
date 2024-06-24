@@ -10,9 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axiosClient from '../axios-client';
+import axiosClient from '../../axios-client';
 import { useRef, useState } from 'react';
-import { useStateContext } from '../contexts/contextProvider';
+import { useStateContext } from '../../contexts/contextProvider';
 
 function Copyright(props) {
     return (
@@ -29,27 +29,25 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Signup() {
-    const nameRef = useRef();
+export default function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
-    const passwordConfirmationRef = useRef();
     const [formErrors, setFormErrors] = useState(null);
     const {setUser, setToken} = useStateContext();
-
     const handleSubmit = (event) => {
         event.preventDefault();
         const payload = {
-            name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
-            passwordConfirmation: passwordConfirmationRef.current.value,
         }
-        axiosClient.post('/signup', payload)
+        axiosClient.post('/login', payload)
             .then(res => {
                 setUser(res.data.user);
                 setToken(res.data.token);
                 console.log(res);
+                if (!!res.data.message){
+                    setFormErrors({message: res.data.message})
+                }
             })
             .catch(err => {
                 const response = err.response;
@@ -58,6 +56,7 @@ export default function Signup() {
                 }
             })
     };
+    console.log(formErrors)
 
     return (
 
@@ -75,7 +74,7 @@ export default function Signup() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign Up
+                    Login
                 </Typography>
                 {formErrors && <Alert severity="error">
                           {Object.keys(formErrors).map(key => (
@@ -83,17 +82,6 @@ export default function Signup() {
                           ))}  
                         </Alert>} 
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="name"
-                        label="Name"
-                        name="name"
-                        autoComplete="name"
-                        autoFocus
-                        inputRef={nameRef}
-                    />
                     <TextField
                         margin="normal"
                         required
@@ -113,17 +101,8 @@ export default function Signup() {
                         label="Password"
                         type="password"
                         id="password"
+                        autoComplete="current-password"
                         inputRef={passwordRef}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        inputRef={passwordConfirmationRef}
                     />
                     <Button
                         type="submit"
@@ -131,12 +110,12 @@ export default function Signup() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Sign Up
+                        Log in
                     </Button>
                     <Grid container justifyContent={'center'}>
                         <Grid item>
-                            <Link href="/login" variant="body2">
-                                {"Already have an account? Log In"}
+                            <Link href="/signup" variant="body2">
+                                {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
                     </Grid>

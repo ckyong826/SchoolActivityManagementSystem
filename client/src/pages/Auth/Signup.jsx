@@ -10,9 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axiosClient from '../axios-client';
+import axiosClient from '../../axios-client';
 import { useRef, useState } from 'react';
-import { useStateContext } from '../contexts/contextProvider';
+import { useStateContext } from '../../contexts/contextProvider';
 
 function Copyright(props) {
     return (
@@ -29,20 +29,25 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Signup() {
+    const nameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
+    const passwordConfirmationRef = useRef();
     const [formErrors, setFormErrors] = useState(null);
     const {setUser, setToken} = useStateContext();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const payload = {
+            name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
+            password_confirmation: passwordConfirmationRef.current.value,
         }
-        axiosClient.post('/login', payload)
+        axiosClient.post('/signup', payload)
             .then(res => {
-                setUser(res.data.user);
+                // setUser(res.data.user);
                 setToken(res.data.token);
                 console.log(res);
             })
@@ -70,7 +75,7 @@ export default function Login() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login
+                    Sign Up
                 </Typography>
                 {formErrors && <Alert severity="error">
                           {Object.keys(formErrors).map(key => (
@@ -78,6 +83,17 @@ export default function Login() {
                           ))}  
                         </Alert>} 
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                        inputRef={nameRef}
+                    />
                     <TextField
                         margin="normal"
                         required
@@ -97,8 +113,17 @@ export default function Login() {
                         label="Password"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
                         inputRef={passwordRef}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        inputRef={passwordConfirmationRef}
                     />
                     <Button
                         type="submit"
@@ -106,12 +131,12 @@ export default function Login() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Log in
+                        Sign Up
                     </Button>
                     <Grid container justifyContent={'center'}>
                         <Grid item>
-                            <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                            <Link href="/login" variant="body2">
+                                {"Already have an account? Log In"}
                             </Link>
                         </Grid>
                     </Grid>

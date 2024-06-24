@@ -1,12 +1,15 @@
 import { Routes, Route, createBrowserRouter, Navigate } from "react-router-dom";
 import { React } from 'react';
 import Homepage from "../pages/Homepage";
-import Login from "../pages/Login";
-import Users from "../pages/Users";
+import Login from "../pages/Auth/Login";
+import Users from "../pages/Users/Users";
 import DefaultLayout from "../public/layout/DefaultLayout";
 import GuestLayout from "../public/layout/GuestLayout";
-import Signup from "../pages/Signup";
+import Signup from "../pages/Auth/Signup";
 import Profile from "../pages/Profile";
+import AdminLayout from "../public/layout/AdminLayout";
+import AdminActivityPage from "../pages/Activity/AdminActivityPage";
+import ActivityDetailsPage from "../pages/Activity/ActivityDetailsPage";
 // export default function Router() {
 //   return (
 //     <>
@@ -30,10 +33,6 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile/>
       },
-      {
-        path: '/users',
-        element: <Users/>
-      },
     ]
   },
   {
@@ -47,6 +46,25 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup/>
+      },
+      {
+        path: '/activity',
+        element: <AdminActivityPage/>
+      },
+      {
+        path: '/activity/:activityID',
+        element: <ActivityDetailsPage/>
+      },
+
+    ]
+  },
+  {
+    path: '/',
+    element: <AdminLayout/>,
+    children: [
+      {
+        path: '/users',
+        element: <Users/>
       },
     ]
   },

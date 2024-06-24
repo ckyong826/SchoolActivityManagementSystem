@@ -7,7 +7,11 @@ import { createTheme,ThemeProvider } from '@mui/material/styles';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import {Skeleton } from '@mui/material';
 import Notification from '../public/modal/widget/useNotification';
+<<<<<<< HEAD
 import FilterComponent from '../public/components/FilterComponent';
+=======
+import { useStateContext } from '../contexts/contextProvider';
+>>>>>>> jz
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -42,7 +46,7 @@ const theme = createTheme({
 });
 
 const Homepage = () => {
-  const user = useGetCurrentUser();
+  const {user} = useStateContext();
   const [loading, setLoading] = React.useState(false);
   const [render, setRender] = React.useState(false);
   const hideRender = () => {
@@ -54,6 +58,7 @@ const Homepage = () => {
       setLoading(false);
     }, 2000);
   }, []);
+  console.log(user)
   return (
     <ThemeProvider theme={theme}>
     <Box >
