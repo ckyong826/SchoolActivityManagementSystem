@@ -1,16 +1,25 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import ModalActivityComponent from "./modal/ModalActivityComponent";
 
-const SquishyCard = () => {
+
+const SquishyCard = (props) => {
   return (
-    <section className="bg-neutral-900 px-4 py-12">
+    <section className="bg-white px-4 py-8">
       <div className="mx-auto w-fit">
-        <Card />
+        <Card props={props} />
       </div>
     </section>
   );
 };
 
-const Card = () => {
+const Card = ({props}) => {
+  const [open, handleOpen] = useState(false);
+  const [step, setStep] = useState(0);
+  const setOpen = () => {
+    handleOpen(true);
+    setStep(0);
+  }
   return (
     <motion.div
       whileHover="hover"
@@ -27,7 +36,7 @@ const Card = () => {
     >
       <div className="relative z-10 text-white">
         <span className="mb-3 block w-fit rounded-full bg-white/30 px-3 py-0.5 text-sm font-light text-white">
-          Pro
+          {props.tag}
         </span>
         <motion.span
           initial={{ scale: 0.85 }}
@@ -40,19 +49,20 @@ const Card = () => {
             duration: 1,
             ease: "backInOut",
           }}
-          className="my-2 block origin-top-left font-mono text-6xl font-black leading-[1.2]"
+          className="my-2 block top-left font-mono text-6xl font-black leading-[1.2]"
         >
-          $299/
-          <br />
-          Month
+          {props.title}
+
         </motion.span>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, rem.
+          {props.description}
         </p>
       </div>
-      <button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
-        Get it now
+      <button onClick={setOpen} className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
+        Join Now
       </button>
+      <ModalActivityComponent open={open} handleClose={() => handleOpen(false)} step={step} setStep={setStep} setRender={props.setRender}/>
+        
       <Background />
     </motion.div>
   );
