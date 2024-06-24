@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import ModalActivityComponent from "../modal/ModalActivityComponent";
+import ModalActivityComponent from "./modalComponent/ModalActivityComponent";
 
 
 const SquishyCard = (props) => {

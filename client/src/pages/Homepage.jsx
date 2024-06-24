@@ -1,17 +1,13 @@
 import React, { useEffect } from 'react';
-import ShuffleHero from '../public/HeroComponent';
+import ShuffleHero from '../public/components/HeroComponent';
 import ResponsiveAppBar from '../public/components/HeaderComponent';
 import SquishyCard from '../public/components/CardComponent';
 import { Box, Typography } from '@mui/material';
 import { createTheme,ThemeProvider } from '@mui/material/styles';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import {Skeleton } from '@mui/material';
-import Notification from '../public/modal/widget/useNotification';
-<<<<<<< HEAD
+import Notification from '../public/components/modalComponent/widget/useNotification';
 import FilterComponent from '../public/components/FilterComponent';
-=======
-import { useStateContext } from '../contexts/contextProvider';
->>>>>>> jz
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
@@ -46,7 +42,7 @@ const theme = createTheme({
 });
 
 const Homepage = () => {
-  const {user} = useStateContext();
+  const user = useGetCurrentUser();
   const [loading, setLoading] = React.useState(false);
   const [render, setRender] = React.useState(false);
   const hideRender = () => {
@@ -58,7 +54,6 @@ const Homepage = () => {
       setLoading(false);
     }, 2000);
   }, []);
-  console.log(user)
   return (
     <ThemeProvider theme={theme}>
     <Box >
