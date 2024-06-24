@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../../contexts/contextProvider";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
+import ResponsiveAppBar from "../HeaderComponent";
 
 const DefaultLayout = () => {
     const {user, token, setUser} = useStateContext();
@@ -14,7 +15,8 @@ const DefaultLayout = () => {
     }
 
     return ( 
-        <div>
+        <div className="w-full mt-[90px]">
+            <ResponsiveAppBar/>
             <Outlet/>
         </div>
      );

@@ -17,9 +17,9 @@ class ActivityFactory extends Factory
     public function definition(): array
     {
         return [
-            'activityName' => $this->faker->activityName(),
-            'description' => $this->faker->description(),
-            'categoryTag' => $this->faker->categoryTag(),
+            'activityName' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'categoryTag' => $this->faker->randomElement(['sports', 'music']),
             'startDate' => $this->faker->date(),
             'endDate' => $this->faker->date(),
             

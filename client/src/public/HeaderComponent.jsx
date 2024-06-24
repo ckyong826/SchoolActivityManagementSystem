@@ -20,8 +20,6 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import userConsts from '../consts/common-consts';
 
 
-const pages = ['Activity'];
-
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
@@ -59,10 +57,10 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters >
           <Typography
+            onClick={() => navigate("/")}
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               flexGrow: 1,
@@ -77,10 +75,10 @@ function ResponsiveAppBar() {
             ActivityHUB
           </Typography>
           <Typography
+          onClick={() => navigate("/")}
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -94,15 +92,15 @@ function ResponsiveAppBar() {
             ActivityHUB
           </Typography>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={"Activities"}
+                onClick={() => navigate("/activities")}
                 sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
               >
-                {page}
+                ACTIVITIES
               </Button>
-            ))}
+            </Box>
             {
               isAdmin
                 ?
@@ -178,14 +176,31 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem key={"Login"}>
-                <Typography textAlign="center">Login</Typography>
+              <MenuItem
+                key={"Login"}
+                onClick={() => navigate("/activities")}>
+                <Typography textAlign="center">Activities</Typography>
               </MenuItem>
+              <MenuItem
+                key={"Login"}
+                onClick={() => navigate("/users")}>
+                <Typography textAlign="center">Users</Typography>
+              </MenuItem>
+              {
+                userLoggedIn
+                  ?
+                  <MenuItem
+                    key={"Login"}
+                    onClick={(e) => onLogout(e)}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+                  :
+                  <MenuItem
+                    key={"Login"}
+                    onClick={() => navigate("/login")}>
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+              }
             </Menu>
           </Box>
 
