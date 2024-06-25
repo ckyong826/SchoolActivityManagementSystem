@@ -8,20 +8,22 @@ import axiosClient from '../../../../axios-client';
 import Notification from './useNotification';
 
 const ModalCompletionComponent = (props) => {
-  const user = useGetCurrentUser();
-  console.log(user?.userID)
+  const [loading, setLoading] = React.useState(false);
+  console.log(props.user?.userID)
   const handleRegister = async () => {
+    setLoading(true);
     const payload = {
-      userID: user?.userID,
+      userID: props.user?.userID,
       activityID: props.prop.activityID,
-      regDate : new Date().toISOString(),
     };
     try {
-      await axios.post('/registration', payload);
+      await axiosClient.post('/registration', payload);
       console.log('Joined activity successfully');
       props.setStep(3);
+      setLoading(false);
     } catch (error) {
       console.error('Error joining activity:', error.response?.data || error.message);
+      setLoading(false);
     }
   }
   return (
