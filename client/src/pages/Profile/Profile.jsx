@@ -7,7 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
 import CakeIcon from '@mui/icons-material/Cake';
-import { format, isBefore, isAfter } from 'date-fns';
+import { format, isBefore, isAfter, set } from 'date-fns';
 import axiosClient from '../../axios-client';
 
 const ProfileSidebar = styled(Box)(({ theme }) => ({
@@ -122,15 +122,16 @@ const Profile = () => {
       try {
         const profileResponse = await axiosClient.get(`/profile/${user.userID}`);
         setProfile(profileResponse.data);
-        console.log(profileResponse.data);
 
-        const activitiesResponse = await axiosClient.get(`/activity`);
-        setActivities(activitiesResponse.data);
-        console.log(activitiesResponse.data);
-
-        const registrationsResponse = await axiosClient.get(`/registrations/${user.userID}`);
+        const registrationsResponse = await axiosClient.get(`/registrations/user/${user.userID}`);
+        setRegistrations(registrationsResponse.data);
+        // setActivities(registrationsResponse.data.activity);
         setRegistrations(registrationsResponse.data);
         console.log(registrationsResponse.data);
+
+        const activities = registrationsResponse.data.map((registration) => registration.activity);
+        setActivities(activities);
+        
       } catch (error) {
         console.error('Error fetching profile data:', error);
       } finally {
@@ -166,16 +167,12 @@ const Profile = () => {
     );
   }
 
-  // user.userID === registration.userID && registration.activityID === activity.activityID
-  
-  const userActivities = registrations.map(registration => registration.activityID);
-  
   const upcomingActivities = activities.filter(activity =>
-    userActivities.includes(activity.activityID) && isAfter(new Date(activity.endDateTime), today)
+    isAfter(new Date(activity.endDateTime), today)
   );
-  
+
   const previousActivities = activities.filter(activity =>
-    userActivities.includes(activity.activityID) && isBefore(new Date(activity.endDateTime), today)
+    isBefore(new Date(activity.endDateTime), today)
   );
   
   return (

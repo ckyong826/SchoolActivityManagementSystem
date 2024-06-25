@@ -25,8 +25,7 @@ Route::prefix('/api/registrations')->group(function () {
     Route::get('/', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::post('/', [RegistrationController::class, 'store'])->name('registrations.store');
     Route::get('/{registration}', [RegistrationController::class, 'show'])->name('registrations.show');
-    //const registrationsResponse = await axiosClient.get(`/registration?userID=${user.userID}`);
-    Route::get('/{userID}', [RegistrationController::class, 'getRegistrationsByUserId'])->name('registrations.getRegistrationsByUserId');
+    Route::get('/user/{userID}', [RegistrationController::class, 'getRegistrationsByUserId'])->name('registrations.getRegistrationsByUserId');
     Route::put('/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
     Route::delete('/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
 });

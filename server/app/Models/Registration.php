@@ -11,20 +11,25 @@ class Registration extends Model
 
     protected $primaryKey = 'registrationID';
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID');
     }
 
-    public function activity(){
-        return $this->belongsTo(Activity::class);
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class, 'activityID');
     }
+
     protected $casts = [
         'regDate' => 'datetime',
     ];
+
     protected $fillable = [
         'userID',
         'activityID',
         'regDate',
     ];
 }
+
 

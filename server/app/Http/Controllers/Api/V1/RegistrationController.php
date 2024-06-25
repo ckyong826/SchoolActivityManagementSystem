@@ -25,9 +25,18 @@ class RegistrationController extends Controller
 
     public function getRegistrationsByUserId($userID)
     {
-        $registrations = Registration::where('userID', $userID)->get();
-        return response()->json($registrations);
+        try {
+            $registrations = Registration::where('userID', $userID)->with('activity')->get();
+            return response()->json($registrations);
+        } catch (\Exception $e) {
+            // Log the error
+            // \Log::error('Error fetching registrations: ' . $e->getMessage());
+            // Return a JSON response with the error message
+            return response()->json(['error' => 'Error fetching registrations'], 500);
+        }
     }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -97,5 +106,7 @@ class RegistrationController extends Controller
             })
         );
     }
+
+    
 
 }
