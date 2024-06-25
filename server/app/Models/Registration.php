@@ -26,8 +26,5 @@ class Registration extends Model
         'activityID',
         'regDate',
     ];
-    protected $casts = [
-        'regDate' => 'datetime',
-    ];
 }
 

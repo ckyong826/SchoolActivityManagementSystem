@@ -60,7 +60,7 @@ export default function Login() {
 
     return (
 
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className='mt-24'>
             <CssBaseline />
             <Box
                 sx={{
