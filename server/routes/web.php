@@ -27,7 +27,7 @@ Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);
 
 Route::prefix('/api/profile')->group(function () {
-    Route::get('/{userID}', [ProfileController::class, 'show'])->name('profiles.show');
+    Route::get('/{userID}', [ProfileController::class, 'showByUserID'])->name('profiles.show');
     Route::get('/edit/{userID}', [ProfileController::class, 'edit'])->name('profiles.edit');
     Route::post('/', [ProfileController::class, 'store'])->name('profiles.store');
     Route::put('/update/{userID}', [ProfileController::class, 'update'])->name('profiles.update');
