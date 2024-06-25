@@ -19,8 +19,16 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/api/logout', [AuthController::class, "logout"]);
     Route::apiResource('/api/users', UserController::class);
 });
-Route::apiResource('/api/registration', RegistrationController::class);
 
+Route::prefix('/api/registrations')->group(function () {
+    Route::get('/', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::post('/', [RegistrationController::class, 'store'])->name('registrations.store');
+    Route::get('/{registration}', [RegistrationController::class, 'show'])->name('registrations.show');
+    //const registrationsResponse = await axiosClient.get(`/registration?userID=${user.userID}`);
+    Route::get('/{userID}', [RegistrationController::class, 'getRegistrationsByUserId'])->name('registrations.getRegistrationsByUserId');
+    Route::put('/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
+    Route::delete('/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
+});
 Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);
 

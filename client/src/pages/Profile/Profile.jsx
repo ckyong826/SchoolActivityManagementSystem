@@ -120,14 +120,17 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-
         const profileResponse = await axiosClient.get(`/profile/${user.userID}`);
         setProfile(profileResponse.data);
         console.log(profileResponse.data);
+
         const activitiesResponse = await axiosClient.get(`/activity`);
         setActivities(activitiesResponse.data);
-        const registrationsResponse = await axiosClient.get(`/registration`);
+        console.log(activitiesResponse.data);
+
+        const registrationsResponse = await axiosClient.get(`/registrations/${user.userID}`);
         setRegistrations(registrationsResponse.data);
+        console.log(registrationsResponse.data);
       } catch (error) {
         console.error('Error fetching profile data:', error);
       } finally {
@@ -164,13 +167,17 @@ const Profile = () => {
   }
 
   // user.userID === registration.userID && registration.activityID === activity.activityID
-  const userActivities = activities.filter(activity => 
-    registrations.some(registration => registration.userID === user.userID && registration.activityID === activity.activityID)
+  
+  const userActivities = registrations.map(registration => registration.activityID);
+  
+  const upcomingActivities = activities.filter(activity =>
+    userActivities.includes(activity.activityID) && isAfter(new Date(activity.endDateTime), today)
   );
-
-  const upcomingActivities = userActivities.filter(activity => isAfter(new Date(activity.endDate), today));
-  const previousActivities = userActivities.filter(activity => isBefore(new Date(activity.endDate), today));
-
+  
+  const previousActivities = activities.filter(activity =>
+    userActivities.includes(activity.activityID) && isBefore(new Date(activity.endDateTime), today)
+  );
+  
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>

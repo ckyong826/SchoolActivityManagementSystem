@@ -23,6 +23,11 @@ class RegistrationController extends Controller
         );
     }
 
+    public function getRegistrationsByUserId($userID)
+    {
+        $registrations = Registration::where('userID', $userID)->get();
+        return response()->json($registrations);
+    }
     /**
      * Store a newly created resource in storage.
      */
