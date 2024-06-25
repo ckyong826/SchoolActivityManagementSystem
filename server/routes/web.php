@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\V1\ActivityController;
+use App\Http\Controllers\Api\V1\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,14 @@ Route::apiResource('/api/registration', RegistrationController::class);
 
 Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);
+
+Route::prefix('/api/profile')->group(function () {
+    Route::get('/{userID}', [ProfileController::class, 'show'])->name('profiles.show');
+    Route::get('/edit/{userID}', [ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::post('/', [ProfileController::class, 'store'])->name('profiles.store');
+    Route::put('/update/{userID}', [ProfileController::class, 'update'])->name('profiles.update');
+    Route::delete('/{userID}', [ProfileController::class, 'destroy'])->name('profiles.destroy');
+});
 
 Route::prefix('/api/activities')->group(function () {
     Route::get('/', [ActivityController::class, 'index'])->name('activities.index');

@@ -1,15 +1,14 @@
-import React from 'react';
-import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import { Box, Card, CardContent, Typography, Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useGetCurrentUser from '../../hooks/useGetCurrentUser';
+import { Box, Card, CardContent, Typography, Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Grid, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
 import CakeIcon from '@mui/icons-material/Cake';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import ResponsiveAppBar from '../public/HeaderComponent';
 import { format, isBefore, isAfter } from 'date-fns';
-import '../axios-client';
+import axiosClient from '../../axios-client';
 
 const ProfileSidebar = styled(Box)(({ theme }) => ({
   width: 350,
@@ -20,7 +19,6 @@ const ProfileSidebar = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: theme.spacing(10),
   [theme.breakpoints.down('md')]: {
     width: '100%',
     height: 'auto',
@@ -81,7 +79,6 @@ const ProfileContent = styled(Box)(({ theme }) => ({
   backgroundColor: '#f0f4f8',
   minHeight: '100vh',
   marginLeft: theme.spacing(2),
-  marginTop: theme.spacing(10),
   [theme.breakpoints.down('md')]: {
     marginLeft: 0,
   },
@@ -100,7 +97,13 @@ const DateDisplay = styled(Box)(({ theme }) => ({
 
 const Profile = () => {
   const user = useGetCurrentUser();
+  const navigate = useNavigate();
   const today = new Date();
+
+  const [profile, setProfile] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const [registrations, setRegistrations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const profileFields = [
     { key: 'profileID', label: 'Profile ID' },
@@ -114,36 +117,89 @@ const Profile = () => {
     { key: 'dateOfBirth', label: 'Date of Birth', icon: <CakeIcon color="inherit" /> },
   ];
 
-  const activities = [
-    { id: 1, activityName: 'Activity 1', description: 'Description 1', categoryTag: 'Category 1', startDate: '2024-07-01', endDate: '2024-07-02', created_at: '2024-06-01', updated_at: '2024-06-10' },
-    { id: 2, activityName: 'Activity 2', description: 'Description 2', categoryTag: 'Category 2', startDate: '2024-07-05', endDate: '2024-07-06', created_at: '2024-06-05', updated_at: '2024-06-12' },
-  ];
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
 
-  // Filter activities based on endDate
-  const upcomingActivities = activities.filter(activity => isAfter(new Date(activity.endDate), today));
-  const previousActivities = activities.filter(activity => isBefore(new Date(activity.endDate), today));
+        const profileResponse = await axiosClient.get(`/profile/${user.userID}`);
+        setProfile(profileResponse.data);
+        console.log(profileResponse.data);
+        const activitiesResponse = await axiosClient.get(`/activity`);
+        setActivities(activitiesResponse.data);
+        const registrationsResponse = await axiosClient.get(`/registration`);
+        setRegistrations(registrationsResponse.data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchProfileData();
+    }
+  }, [user]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexGrow: 1 }}>
+          <ProfileSidebar>
+            <SidebarHeader>
+              <Skeleton variant="circular" width={120} height={120} sx={{ mx: 'auto' }} />
+              <Skeleton variant="text" width={220} height={40} sx={{ mx: 'auto', mt: 2 }} />
+              <Skeleton variant="text" width={180} height={30} sx={{ mx: 'auto', mt: 1 }} />
+            </SidebarHeader>
+            <Grid container spacing={3} sx={{ mt: 3 }}>
+              {profileFields.map(({ key }) => (
+                <Grid item xs={12} key={key}>
+                  <Skeleton variant="rectangular" width="100%" height={60} />
+                </Grid>
+              ))}
+            </Grid>
+          </ProfileSidebar>
+        </Box>
+      </Box>
+    );
+  }
+
+  // user.userID === registration.userID && registration.activityID === activity.activityID
+  const userActivities = activities.filter(activity => 
+    registrations.some(registration => registration.userID === user.userID && registration.activityID === activity.activityID)
+  );
+
+  const upcomingActivities = userActivities.filter(activity => isAfter(new Date(activity.endDate), today));
+  const previousActivities = userActivities.filter(activity => isBefore(new Date(activity.endDate), today));
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <ResponsiveAppBar />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <ProfileSidebar>
           <SidebarHeader>
-            <ProfileAvatar src={user?.profilePicture || ""} alt={`${user?.firstName} ${user?.lastName}`}>
-              {(!user?.profilePicture) && <AccountCircleIcon sx={{ width: 80, height: 80 }} />}
+            <ProfileAvatar src={profile?.profilePicture || ""} alt={`${profile?.firstName} ${profile?.lastName}`}>
+              {!profile?.profilePicture && <AccountCircleIcon sx={{ width: 80, height: 80 }} />}
             </ProfileAvatar>
             <Typography variant="h6" sx={{ mt: 2 }}>
-              {user?.firstName} {user?.lastName}
+              {profile?.firstName} {profile?.lastName}
             </Typography>
           </SidebarHeader>
-          {user && profileFields.map(({ key, label, icon }) => (
-            <FieldPaper key={key} elevation={1} sx={{ my: 1 }}>
-              {icon && <Box sx={{ mr: 2 }}>{icon}</Box>}
-              <ProfileField>
-                <strong>{label}:</strong> {user[key] ?? 'N/A'}
-              </ProfileField>
-            </FieldPaper>
-          ))}
+          {profile ? (
+            profileFields.map(({ key, label, icon }) => (
+              <FieldPaper key={key} elevation={1} sx={{ my: 1 }}>
+                {icon && <Box sx={{ mr: 2 }}>{icon}</Box>}
+                <ProfileField>
+                  <strong>{label}:</strong> {profile[key] ?? 'N/A'}
+                </ProfileField>
+              </FieldPaper>
+            ))
+          ) : (
+            <Skeleton variant="rectangular" width="100%" height={60} />
+          )}
+          <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="contained" color="primary" onClick={() => navigate('/profile/edit')}>
+              Edit Profile
+            </Button>
+          </Box>
         </ProfileSidebar>
         <ProfileContent>
           <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
@@ -165,21 +221,19 @@ const Profile = () => {
                               <TableCell>Category Tag</TableCell>
                               <TableCell>Start Date</TableCell>
                               <TableCell>End Date</TableCell>
-                              <TableCell>Created At</TableCell>
-                              <TableCell>Updated At</TableCell>
+                              <TableCell>Created By</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {upcomingActivities.map(activity => (
-                              <TableRow key={activity.id}>
-                                <TableCell>{activity.id}</TableCell>
+                              <TableRow key={activity.activityID}>
+                                <TableCell>{activity.activityID}</TableCell>
                                 <TableCell>{activity.activityName}</TableCell>
                                 <TableCell>{activity.description}</TableCell>
                                 <TableCell>{activity.categoryTag}</TableCell>
-                                <TableCell>{activity.startDate}</TableCell>
-                                <TableCell>{activity.endDate}</TableCell>
-                                <TableCell>{activity.created_at}</TableCell>
-                                <TableCell>{activity.updated_at}</TableCell>
+                                <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
+                                <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
+                                <TableCell>{activity.createdBy}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -207,21 +261,19 @@ const Profile = () => {
                               <TableCell>Category Tag</TableCell>
                               <TableCell>Start Date</TableCell>
                               <TableCell>End Date</TableCell>
-                              <TableCell>Created At</TableCell>
-                              <TableCell>Updated At</TableCell>
+                              <TableCell>Created By</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {previousActivities.map(activity => (
-                              <TableRow key={activity.id}>
-                                <TableCell>{activity.id}</TableCell>
+                              <TableRow key={activity.activityID}>
+                                <TableCell>{activity.activityID}</TableCell>
                                 <TableCell>{activity.activityName}</TableCell>
                                 <TableCell>{activity.description}</TableCell>
                                 <TableCell>{activity.categoryTag}</TableCell>
-                                <TableCell>{activity.startDate}</TableCell>
-                                <TableCell>{activity.endDate}</TableCell>
-                                <TableCell>{activity.created_at}</TableCell>
-                                <TableCell>{activity.updated_at}</TableCell>
+                                <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
+                                <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
+                                <TableCell>{activity.createdBy}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
@@ -234,7 +286,6 @@ const Profile = () => {
                 </Card>
               </>
             ) : (
-                
               <Box sx={{ maxWidth: 900, mx: 'auto' }}>
                 <Skeleton variant="circular" width={120} height={120} sx={{ mx: 'auto' }} />
                 <Skeleton variant="text" width={220} height={40} sx={{ mx: 'auto', mt: 2 }} />

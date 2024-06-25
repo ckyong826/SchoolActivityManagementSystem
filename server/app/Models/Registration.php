@@ -18,9 +18,6 @@ class Registration extends Model
     public function activity(){
         return $this->belongsTo(Activity::class);
     }
-    protected $casts = [
-        'regDate' => 'datetime',
-    ];
     protected $fillable = [
         'userID',
         'activityID',

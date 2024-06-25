@@ -3,7 +3,6 @@ import SquishyCard from '../../public/components/CardComponent';
 import { Box } from '@mui/material';
 import {Skeleton } from '@mui/material';
 import axiosClient from '../../axios-client'
-import SquishyCard from '../../public/components/CardComponent';
 
 
 const Activities = () => {
