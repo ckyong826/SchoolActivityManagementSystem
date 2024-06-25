@@ -4,14 +4,13 @@ import Button from '@mui/material/Button';
 
 const ButtonComponent = (props) => {
   const handleNext = () => {
-    // if (props.handleSubmit) {
-    //   props.handleSubmit();
-    // } 
-
-    // else
-    //  {
-    //   props.setStep(props.next);
-    // }
+    if (props.handleSubmit) {
+      props.handleSubmit();
+    } 
+    else if (props.handleRegister)
+     {
+      props.handleRegister();
+    }
 
     props.setStep(props.next);
   };

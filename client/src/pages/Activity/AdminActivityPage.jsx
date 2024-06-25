@@ -74,7 +74,7 @@ const AdminActivityPage = () => {
     };
 
     fetchActivities();
-  }, [activity, activityList]);
+  }, [activity]);
 
 
 
@@ -82,8 +82,6 @@ const AdminActivityPage = () => {
   return (
 
     <Container maxWidth="xl">
-        <Box sx={{ paddingTop: `90px` }}>
-      <ResponsiveAppBar />
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h3" component="h2">
             Activity List
@@ -101,7 +99,6 @@ const AdminActivityPage = () => {
         updateActivity={handleEditActivity}
         deleteActivity={handleDeleteActivity}
       />
-    </Box>
     </Container>
   );
 };

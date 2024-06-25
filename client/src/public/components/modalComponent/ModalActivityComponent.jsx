@@ -7,8 +7,10 @@ import ModalFormComponent from "./widget/ModalFormComponent";
 import ModalCompletionComponent from "./widget/ModalCompletionComponent";
 import ButtonComponent from "./widget/useButton";
 import Notification from "./widget/useNotification";
+import useGetCurrentUser from "../../../hooks/useGetCurrentUser";
 
 const ModalActivityComponent= ({ prop, open, handleClose, step, setStep, setRender }) => {
+  const user = useGetCurrentUser();
   useEffect(() => {
     if (step === -1){
       handleClose();
@@ -30,7 +32,7 @@ const ModalActivityComponent= ({ prop, open, handleClose, step, setStep, setRend
         <CustomizedSteppers step={step} />
         {step === 0 && <> <ModalDescriptionComponent prop={prop} />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
         {step === 1 && <> <ModalFormComponent step={step} setStep={setStep} />  </>}
-        {step === 2 && <ModalCompletionComponent step = {step} setStep={setStep}/> }
+        {step === 2 && <ModalCompletionComponent step = {step} setStep={setStep} prop={prop} user={user}/> }
       </Box>
     </Modal>
     
