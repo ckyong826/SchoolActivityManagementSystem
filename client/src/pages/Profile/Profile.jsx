@@ -9,6 +9,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import CakeIcon from '@mui/icons-material/Cake';
 import { format, isBefore, isAfter, set } from 'date-fns';
 import axiosClient from '../../axios-client';
+import FilterComponent from '../../public/components/FilterComponent';
+import SearchComponent from '../../public/components/searchComponent';
 
 const ProfileSidebar = styled(Box)(({ theme }) => ({
   width: 350,
@@ -144,6 +146,18 @@ const Profile = () => {
     }
   }, [user]);
 
+  // const [filter, setFilter] = useState('All');
+  // const handleFilter = (e) => {
+  //   setFilter(e.target.value);
+  // };
+
+  // const [searchQuery, setSearchQuery] = useState('');
+
+  // const filteredAndSearchedActivities = activities.filter(activity => {
+  //   return (filter === 'All' || activity.category === filter) &&
+  //          activity.activityName.toLowerCase().includes(searchQuery.toLowerCase());
+  // });
+
   if (loading) {
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -209,6 +223,13 @@ const Profile = () => {
           <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
             {user ? (
               <>
+              {/* <Box  sx={{height:100, display:"flex", justifyContent:'space-between',alignItems:'center', paddingX:24, flexDirection:{xs:'column',md:'row'}}}>
+                <p className="text-4xl font-bold font-mono text-center" >Features</p>
+                <div className='flex flex-row justify-center gap-4 items-center'>
+                  <SearchComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                  <FilterComponent filter={filter} handleFilter={handleFilter}/>
+                </div>
+              </Box> */}
                 <Card>
                   <CardContent>
                     <Typography variant="h5" gutterBottom>
@@ -234,7 +255,7 @@ const Profile = () => {
                                 <TableCell>{activity.activityID}</TableCell>
                                 <TableCell>{activity.activityName}</TableCell>
                                 <TableCell>{activity.description}</TableCell>
-                                <TableCell>{activity.categoryTag}</TableCell>
+                                <TableCell>{activity.category}</TableCell>
                                 <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{activity.createdBy}</TableCell>
@@ -254,6 +275,7 @@ const Profile = () => {
                     <Typography variant="h5" gutterBottom>
                       Previous Activities
                     </Typography>
+            
                     {previousActivities.length > 0 ? (
                       <ActivityTable component={Paper}>
                         <Table>
@@ -274,7 +296,7 @@ const Profile = () => {
                                 <TableCell>{activity.activityID}</TableCell>
                                 <TableCell>{activity.activityName}</TableCell>
                                 <TableCell>{activity.description}</TableCell>
-                                <TableCell>{activity.categoryTag}</TableCell>
+                                <TableCell>{activity.category}</TableCell>
                                 <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{activity.createdBy}</TableCell>
