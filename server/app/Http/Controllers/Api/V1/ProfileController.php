@@ -44,17 +44,19 @@ class ProfileController extends Controller
      * Display the specified resource.
      */
 
-    public function show($id)
-    {
-        $profile = Profile::find($id);
+     public function showByUserID($userID)
+     {
+         $profile = Profile::where('userID', $userID)->first();
+     
+         // Check if the profile exists
+         if (!$profile) {
+             return response()->json(['message' => 'Profile not found'], 404);
+         }
+     
+         return response()->json($profile);
+     }
 
-        // Check if the profile exists
-        if (!$profile) {
-            return response()->json(['message' => 'Profile not found'], 404);
-        }
-
-        return response()->json($profile);
-    }
+     
 
     /**
      * Show the form for editing the specified resource.
@@ -74,22 +76,21 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $userID)
     {
         // Validate the request data
         $validated = $request->validate([
-            'firstName' => 'sometimes|required|string|max:255',
-            'lastName' => 'sometimes|required|string|max:255',
-            'profilePicture' => 'sometimes|required|string|max:255',
-            'matrikNumber' => 'sometimes|required|string|max:255',
-            'academicYear' => 'sometimes|required|string|max:255',
-            'phoneNumber' => 'sometimes|required|string|max:20',
-            'address' => 'sometimes|required|string|max:255',
-            'dateOfBirth' => 'sometimes|required|date',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'matrikNumber' => 'required|string|max:255',
+            'academicYear' => 'required|string|max:255',
+            'phoneNumber' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'dateOfBirth' => 'required|date',
         ]);
 
-        // Find the profile by ID
-        $profile = Profile::find($id);
+        // Find the profile by userID
+        $profile = Profile::where('userID', $userID)->first();
 
         // Check if the profile exists
         if (!$profile) {
@@ -100,6 +101,7 @@ class ProfileController extends Controller
         $profile->update($validated);
         return response()->json($profile);
     }
+
 
     /**
      * Remove the specified resource from storage.

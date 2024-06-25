@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import SuccessAnimation from './useSuccessAnimation';
 import ButtonComponent from './useButton';
 import useGetCurrentUser from '../../../../hooks/useGetCurrentUser';
-import axiosClient from '../../../../axios-client';
 import Notification from './useNotification';
+import axiosClient from '../../../../axios-client';
 
 const ModalCompletionComponent = (props) => {
   const [loading, setLoading] = React.useState(false);

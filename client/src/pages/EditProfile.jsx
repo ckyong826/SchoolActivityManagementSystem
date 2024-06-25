@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Grid, TextField, Typography, Avatar, Paper, IconButton } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ResponsiveAppBar from '../public/components/HeaderComponent';
 import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import { IoIosCloudUpload } from "react-icons/io";
 import axiosClient from '../axios-client';
 
 // Styled components
@@ -18,57 +17,35 @@ const EditProfileForm = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-const ProfileContainer = styled(Box)({
-  position: 'relative',
-  width: 'fit-content',
-  margin: 'auto',
-});
-
-const ProfileAvatar = styled(Avatar)(({ theme }) => ({
-  width: 120,
-  height: 120,
-  border: `4px solid ${theme.palette.background.paper}`,
-}));
-
-const UploadIconButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  bottom: 0,
-  right: 0,
-  backgroundColor: theme.palette.background.paper,
-  borderRadius: '50%',
-  boxShadow: '0px 4px 20px rgba(0,0,0,0.1)',
-}));
-
 const EditProfile = () => {
   const navigate = useNavigate();
   const user = useGetCurrentUser();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: '',
+    matrikNumber: '',
+    academicYear: '',
     phoneNumber: '',
     address: '',
     dateOfBirth: '',
   });
-  const [profilePicture, setProfilePicture] = useState(null);  // State for the profile picture
-  const [previewImage, setPreviewImage] = useState('');  // State for the preview image
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosClient.get(`/profile/edit/${user.userID}`);
-        const userData = response.data; 
+        const response = await axiosClient.get(`/profile/${user.userID}`);
+        const userData = response.data;
         setFormData({
           firstName: userData.firstName || '',
           lastName: userData.lastName || '',
-          email: userData.email || '',
+          matrikNumber: userData.matrikNumber || '',
+          academicYear: userData.academicYear || '',
           phoneNumber: userData.phoneNumber || '',
           address: userData.address || '',
           dateOfBirth: userData.dateOfBirth || '',
         });
-        setPreviewImage(userData.profilePicture || '');
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch user data');
@@ -89,31 +66,12 @@ const EditProfile = () => {
     });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePicture(file);
-      setPreviewImage(URL.createObjectURL(file));  // Create a preview URL for the selected file
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
-    const formDataToSend = new FormData();
-    Object.keys(formData).forEach(key => formDataToSend.append(key, formData[key]));
-    if (profilePicture) {
-      formDataToSend.append('profilePicture', profilePicture);
-    }
-
     try {
-      console.log('formDataToSend', formDataToSend)
-      await axiosClient.put(`/profile/update/${user.userID}`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      await axiosClient.put(`/profile/update/${user.userID}`, formData);
       navigate('/profile');
     } catch (error) {
       setError('Failed to update profile');
@@ -127,22 +85,7 @@ const EditProfile = () => {
       <ResponsiveAppBar />
       <EditProfileForm>
         <Typography variant="h4" align="center" gutterBottom>Edit Profile</Typography>
-        <ProfileContainer>
-          <ProfileAvatar src={previewImage || ""} alt={`${formData.firstName} ${formData.lastName}`} />
-          <input
-            accept="image/*"
-            type="file"
-            onChange={handleFileChange}
-            style={{ display: 'none' }}
-            id="profile-picture-upload"
-          />
-          <label htmlFor="profile-picture-upload">
-            <UploadIconButton component="span">
-              <IoIosCloudUpload />
-            </UploadIconButton>
-          </label>
-        </ProfileContainer>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={3} sx={{ mt: 3 }}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -164,9 +107,18 @@ const EditProfile = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Email"
-                name="email"
-                value={user.email}
+                label="Matrik Number"
+                name="matrikNumber"
+                value={formData.matrikNumber}
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Academic Year"
+                name="academicYear"
+                value={formData.academicYear}
                 onChange={handleChange}
                 fullWidth
               />
@@ -208,9 +160,9 @@ const EditProfile = () => {
               </Grid>
             )}
             <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">
-                    Save
-                </Button>
+              <Button type="submit" variant="contained" color="primary">
+                Save
+              </Button>
             </Grid>
           </Grid>
         </form>

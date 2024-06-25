@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/api/logout', [AuthController::class, "logout"]);
     Route::apiResource('/api/users', UserController::class);
 });
+Route::get('/api/registration/{userID}', [RegistrationController::class, 'userRegistrations']);
 
 Route::prefix('/api/registrations')->group(function () {
     Route::get('/', [RegistrationController::class, 'index'])->name('registrations.index');
@@ -29,11 +30,12 @@ Route::prefix('/api/registrations')->group(function () {
     Route::put('/{registration}', [RegistrationController::class, 'update'])->name('registrations.update');
     Route::delete('/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
 });
+
 Route::post('/api/signup', [AuthController::class, "signup"]);
 Route::post('/api/login', [AuthController::class, "login"]);
 
 Route::prefix('/api/profile')->group(function () {
-    Route::get('/{userID}', [ProfileController::class, 'show'])->name('profiles.show');
+    Route::get('/{userID}', [ProfileController::class, 'showByUserID'])->name('profiles.show');
     Route::get('/edit/{userID}', [ProfileController::class, 'edit'])->name('profiles.edit');
     Route::post('/', [ProfileController::class, 'store'])->name('profiles.store');
     Route::put('/update/{userID}', [ProfileController::class, 'update'])->name('profiles.update');
