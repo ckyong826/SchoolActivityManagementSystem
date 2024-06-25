@@ -45,6 +45,9 @@ export default function Login() {
                 setUser(res.data.user);
                 setToken(res.data.token);
                 console.log(res);
+                if (!!res.data.message){
+                    setFormErrors({message: res.data.message})
+                }
             })
             .catch(err => {
                 const response = err.response;
@@ -53,10 +56,11 @@ export default function Login() {
                 }
             })
     };
+    console.log(formErrors)
 
     return (
 
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className='mt-24'>
             <CssBaseline />
             <Box
                 sx={{

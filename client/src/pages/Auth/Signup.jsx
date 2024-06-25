@@ -43,7 +43,7 @@ export default function Signup() {
             name: nameRef.current.value,
             email: emailRef.current.value,
             password: passwordRef.current.value,
-            passwordConfirmation: passwordConfirmationRef.current.value,
+            password_confirmation: passwordConfirmationRef.current.value,
         }
         axiosClient.post('/signup', payload)
             .then(res => {
@@ -61,7 +61,7 @@ export default function Signup() {
 
     return (
 
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className='mt-24'>
             <CssBaseline />
             <Box
                 sx={{

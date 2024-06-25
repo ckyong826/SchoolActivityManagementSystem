@@ -1,15 +1,17 @@
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Alert, Skeleton } from '@mui/material'
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Alert, Skeleton, FormControl, InputLabel, Select, MenuItem  } from '@mui/material'
 import { useEffect, useState } from 'react';
 import axiosClient from '../../../axios-client';
+import userConsts from '../../../consts/common-consts';
 
 const EditUserDialog = ({ userId, showEditModal, setShowEditModal, onEditSuccess }) => {
     const [user, setUser] = useState({
         username: '',
         email: '',
+        role: '',
     });
     const [formErrors, setFormErrors] = useState(null);
     const [loading, setLoading] = useState(false);
-    
+
     useEffect(() => {
         setLoading(true);
         if (!userId) {
@@ -59,10 +61,10 @@ const EditUserDialog = ({ userId, showEditModal, setShowEditModal, onEditSuccess
             </Alert>}
             {loading
                 ? <DialogContent>
-                    <Skeleton height={30}/>
-                    <Skeleton height={30}/>
-                    <Skeleton height={30}/>
-                    <Skeleton height={30}/>
+                    <Skeleton height={30} />
+                    <Skeleton height={30} />
+                    <Skeleton height={30} />
+                    <Skeleton height={30} />
                 </DialogContent>
                 : <DialogContent>
                     <TextField
@@ -82,6 +84,23 @@ const EditUserDialog = ({ userId, showEditModal, setShowEditModal, onEditSuccess
                         value={user.email}
                         onChange={e => setUser({ ...user, email: e.target.value })}
                     />
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={user.role}
+                            label="Role"
+                            onChange={(e)=>setUser({...user, role: e.target.value})}
+                        >
+                            {
+                                Object.entries(userConsts).map(([key, value])=> (
+                                    <MenuItem value={value}>{value}</MenuItem>
+                                ))
+                                
+                            }
+                        </Select>
+                    </FormControl>
                     <TextField
                         margin="normal"
                         fullWidth

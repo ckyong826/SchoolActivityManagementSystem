@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id('profileID');
-            $table->string('userID');
+            $table->foreignID('userID')->references('userID')->on('users');
             $table->string('firstName');
             $table->string('lastName');
             $table->string('matrikNumber')->unique();

@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Table
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import EditUserDialog from "./components/EditUserDialog";
-import SnackbarAlertComponent from "../../public/SnackbarAlertComponent";
+import SnackbarAlertComponent from "../../public/components/SnackbarAlertComponent";
 
 
 const Users = () => {

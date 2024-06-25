@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id('activityID');
             $table->string('activityName');
-            $table->string('description');
-            $table->string('categoryTag');
-            $table->date('startDate');
-            $table->date('endDate');
+            $table->text('description');
+            $table->dateTime('startDateTime');
+            $table->dateTime('endDateTime');
+            $table->string('venue');
+            $table->string('category');
+            $table->integer('maxParticipants');
             $table->timestamps();
         });
     }

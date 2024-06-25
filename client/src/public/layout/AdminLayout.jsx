@@ -5,6 +5,7 @@ import axiosClient from "../../axios-client";
 import useGetCurrentUser from "../../hooks/useGetCurrentUser";
 import userConsts from "../../consts/common-consts";
 import { CircularProgress, Snackbar, Alert } from '@mui/material'
+import ResponsiveAppBar from "../components/HeaderComponent";
 
 const AdminLayout = () => {
     const { token, user } = useStateContext();
@@ -19,7 +20,8 @@ const AdminLayout = () => {
     }
 
     return (
-        <div>
+        <div className="w-full mt-[90px]">
+            <ResponsiveAppBar/>
             {!!isAdmin
                 ? <Outlet />
                 : <div className="flex justify-center items-center h-screen">
