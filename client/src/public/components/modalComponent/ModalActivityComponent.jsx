@@ -8,8 +8,7 @@ import ModalCompletionComponent from "./widget/ModalCompletionComponent";
 import ButtonComponent from "./widget/useButton";
 import Notification from "./widget/useNotification";
 
-const ModalActivityComponent= ({ open, handleClose, step, setStep, setRender }) => {
-
+const ModalActivityComponent= ({ prop, open, handleClose, step, setStep, setRender }) => {
   useEffect(() => {
     if (step === -1){
       handleClose();
@@ -29,7 +28,7 @@ const ModalActivityComponent= ({ open, handleClose, step, setStep, setRender }) 
     <Modal open={open} onClose={handleClose} sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
       <Box sx={{width:{xs:'100%',md:'60%'},height:'80%'}} className="bg-white rounded-2xl p-12 max-md:p-8 flex flex-col items-center">
         <CustomizedSteppers step={step} />
-        {step === 0 && <> <ModalDescriptionComponent />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
+        {step === 0 && <> <ModalDescriptionComponent prop={prop} />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
         {step === 1 && <> <ModalFormComponent step={step} setStep={setStep} />  </>}
         {step === 2 && <ModalCompletionComponent step = {step} setStep={setStep}/> }
       </Box>

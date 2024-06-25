@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 const ShuffleHero = () => {
   return (
-    <section className="w-full mt-[90px] px-32 max-lg:px-12 py-10 grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
+    <section  className="w-full mt-[90px] h-[90vh] px-32 max-lg:px-12 py-10 grid grid-cols-1 md:grid-cols-2 max-md:gap-12 items-center gap-20 max-w-8xl mx-auto">
       <div className="text-start max-md:order-last">
         <span className="block mb-4 text-xl md:text-lg text-indigo-500 font-medium ml-1">
           Better every day
@@ -14,7 +14,8 @@ const ShuffleHero = () => {
         <p className="text-lg md:text-2xl text-slate-700 my-4 md:my-6">
           The best school activity registration website. Students can find the latest activity here and join it!
         </p>
-        <button className="bg-indigo-500 text-white font-medium py-4 px-6 rounded transition-all hover:bg-indigo-600 active:scale-95" onClick={() => window.scrollTo({ top: document.getElementById('activities').offsetTop, behavior: 'smooth' })}>
+        <button id="activities" className="bg-indigo-500 text-white font-medium py-4 px-6 rounded transition-all hover:bg-indigo-600 active:scale-95" 
+        onClick={() => window.scrollTo({ top: document.getElementById('activities').offsetTop, behavior: 'smooth' })}>
           Join Activity
         </button>
       </div>

@@ -8,6 +8,9 @@ import GuestLayout from "../public/layout/GuestLayout";
 import Signup from "../pages/Auth/Signup";
 import Profile from "../pages/Profile";
 import AdminLayout from "../public/layout/AdminLayout";
+import AdminActivityPage from "../pages/Activity/AdminActivityPage";
+import ActivityDetailsPage from "../pages/Activity/ActivityDetailsPage";
+import Activities from "../pages/Activities/Activities";
 // export default function Router() {
 //   return (
 //     <>
@@ -31,6 +34,10 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile/>
       },
+      {
+        path: '/activities',
+        element: <Activities/>
+      },
     ]
   },
   {
@@ -45,6 +52,8 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup/>
       },
+      
+
     ]
   },
   {
@@ -54,6 +63,14 @@ const router = createBrowserRouter([
       {
         path: '/users',
         element: <Users/>
+      },
+      {
+        path: '/activity',
+        element: <AdminActivityPage/>
+      },
+      {
+        path: '/activity/:activityID',
+        element: <ActivityDetailsPage/>
       },
     ]
   },

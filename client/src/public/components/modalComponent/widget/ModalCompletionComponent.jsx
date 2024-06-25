@@ -3,7 +3,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import SuccessAnimation from './useSuccessAnimation';
 import ButtonComponent from './useButton';
-import Notification from './useNotification';
 
 const ModalCompletionComponent = (props) => {
 
