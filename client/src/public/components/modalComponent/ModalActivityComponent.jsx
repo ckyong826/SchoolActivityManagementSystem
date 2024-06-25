@@ -30,7 +30,7 @@ const ModalActivityComponent= ({ prop, open, handleClose, step, setStep, setRend
         <CustomizedSteppers step={step} />
         {step === 0 && <> <ModalDescriptionComponent prop={prop} />  <ButtonComponent setStep={setStep} prev={-1} next={1}/> </>}
         {step === 1 && <> <ModalFormComponent step={step} setStep={setStep} />  </>}
-        {step === 2 && <ModalCompletionComponent step = {step} setStep={setStep}/> }
+        {step === 2 && <ModalCompletionComponent step = {step} setStep={setStep} prop={prop}/> }
       </Box>
     </Modal>
     

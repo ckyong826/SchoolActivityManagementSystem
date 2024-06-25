@@ -13,9 +13,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../../contexts/contextProvider';
 import axiosClient from '../../axios-client';
+import useGetCurrentUser from '../../hooks/useGetCurrentUser';
 import userConsts from '../../consts/common-consts';
 
-const pages = ['Activity'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

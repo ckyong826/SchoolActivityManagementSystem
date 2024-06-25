@@ -8,9 +8,9 @@ import GuestLayout from "../public/layout/GuestLayout";
 import Signup from "../pages/Auth/Signup";
 import Profile from "../pages/Profile";
 import AdminLayout from "../public/layout/AdminLayout";
+import Activities from "../pages/Activities/Activities";
 import AdminActivityPage from "../pages/Activity/AdminActivityPage";
 import ActivityDetailsPage from "../pages/Activity/ActivityDetailsPage";
-import Activities from "../pages/Activities/Activities";
 // export default function Router() {
 //   return (
 //     <>
