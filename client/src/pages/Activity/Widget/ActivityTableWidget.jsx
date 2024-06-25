@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, Icon, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,6 +7,7 @@ import { useState } from "react";
 import ViewActivityModal from "./ViewActivityModal";
 import EditActivityModal from "./EditActivityModal";
 import DeleteActivityModal from "./DeleteActivityModal";
+import PersonIcon from '@mui/icons-material/Person';
 
 const ActivityTableWidget = ({
     activity,
@@ -43,6 +44,10 @@ const ActivityTableWidget = ({
                     <IconButton onClick={() => openDeleteModal(params.row.activityID)}>
                         <DeleteIcon color="error" />
                     </IconButton>
+                    <IconButton>
+                        <PersonIcon color="indigo" />
+                    </IconButton>
+
                 </div>
             ),
         },

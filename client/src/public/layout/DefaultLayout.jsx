@@ -2,7 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../../contexts/contextProvider";
 import { useEffect } from "react";
 import axiosClient from "../../axios-client";
-import ResponsiveAppBar from "../HeaderComponent";
+import ResponsiveAppBar from "../components/HeaderComponent";
 
 const DefaultLayout = () => {
     const {user, token, setUser} = useStateContext();
