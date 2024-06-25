@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Registration;
-use App\Http\Requests\StoreRegistrationRequest;
 use App\Http\Requests\UpdateRegistrationRequest;
 use App\Http\Resources\RegistrationResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class RegistrationController extends Controller
 {
@@ -23,11 +26,25 @@ class RegistrationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRegistrationRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $registration = Registration::create($data);
-        return response(new RegistrationResource($registration), 201);
+        // Validate the request data
+        $validatedData = $request->validate([
+            'userID' => 'required|integer',
+            'activityID' => 'required|integer',
+        ]);
+
+        // Insert data into the database
+        DB::table('registrations')->insert([
+            'userID' => $validatedData['userID'],
+            'activityID' => $validatedData['activityID'],
+            'regDate' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        // Return a JSON response
+        return response()->json(['message' => 'Registration created successfully'], 201);
     }
 
     /**

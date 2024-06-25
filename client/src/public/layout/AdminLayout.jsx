@@ -5,7 +5,7 @@ import axiosClient from "../../axios-client";
 import useGetCurrentUser from "../../hooks/useGetCurrentUser";
 import userConsts from "../../consts/common-consts";
 import { CircularProgress, Snackbar, Alert } from '@mui/material'
-import ResponsiveAppBar from "../HeaderComponent";
+import ResponsiveAppBar from "../components/HeaderComponent";
 
 const AdminLayout = () => {
     const { token, user } = useStateContext();

@@ -14,10 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
-import { useStateContext } from '../contexts/contextProvider';
-import axiosClient from '../axios-client';
-import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import userConsts from '../consts/common-consts';
+import { useStateContext } from '../../contexts/contextProvider';
+import axiosClient from '../../axios-client';
+import useGetCurrentUser from '../../hooks/useGetCurrentUser';
+import userConsts from '../../consts/common-consts';
 
 
 function ResponsiveAppBar() {
@@ -95,7 +95,7 @@ function ResponsiveAppBar() {
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button
                 key={"Activities"}
-                onClick={() => navigate("/activities")}
+                onClick={() => navigate("/activity")}
                 sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
               >
                 ACTIVITIES
