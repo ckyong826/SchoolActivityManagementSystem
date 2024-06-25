@@ -20,20 +20,6 @@ const AdminActivityPage = () => {
 
   const [activityList, setActivityList] = useState([]);
 
-  useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await axiosClient.get('/activities');
-        setActivityList(response.data);
-      } catch (error) {
-        console.error('Error fetching activities:', error.response?.data || error.message);
-      }
-    };
-
-    fetchActivities();
-  }, [activity]);
-
-
   const handleAddActivity = async () => {
     try {
         const newActivity = {
@@ -62,18 +48,40 @@ const AdminActivityPage = () => {
 
   const handleEditActivity = async () => {
     try {
-        console.log('activity:', activity);
         const response = await axiosClient.put(`/activities/${activity.activityID}`, activity);
     } catch (error) {
         console.error('Error editing activity:', error.response ? error.response.data : error.message);
     }
   };
 
+  const handleDeleteActivity = async (activityID) => {
+    try {
+        activityList.filter((activity) => activity.activityID !== activityID);
+        const response = await axiosClient.delete(`/activities/${activityID}`);
+    } catch (error) {
+        console.error('Error deleting activity:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const response = await axiosClient.get('/activities');
+        setActivityList(response.data);
+      } catch (error) {
+        console.error('Error fetching activities:', error.response?.data || error.message);
+      }
+    };
+
+    fetchActivities();
+  }, [activity]);
+
+
+
+
   return (
 
     <Container maxWidth="xl">
-        <Box sx={{ paddingTop: `90px` }}>
-      <ResponsiveAppBar />
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h3" component="h2">
             Activity List
@@ -89,8 +97,8 @@ const AdminActivityPage = () => {
         setActivity={setActivity}
         activityList={activityList}
         updateActivity={handleEditActivity}
+        deleteActivity={handleDeleteActivity}
       />
-    </Box>
     </Container>
   );
 };

@@ -7,27 +7,23 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { useStateContext } from '../../contexts/contextProvider';
 import axiosClient from '../../axios-client';
-import useGetCurrentUser from '../../hooks/useGetCurrentUser';
 import userConsts from '../../consts/common-consts';
 
+const pages = ['Activity'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
   const { token, setToken, user, setUser } = useStateContext();
-  // const user = useGetCurrentUser();
 
   const userLoggedIn = !!token ? true : false;
-  const isAdmin = user && user?.role == userConsts.ADMIN;
+  const isAdmin = user && user?.role === userConsts.ADMIN;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -42,9 +38,9 @@ function ResponsiveAppBar() {
     axiosClient.post('/logout')
       .then(() => {
         setUser({});
-        setToken(null)
-      })
-  }
+        setToken(null);
+      });
+  };
 
   return (
     <AppBar position="fixed" sx={{
@@ -55,12 +51,12 @@ function ResponsiveAppBar() {
       px: 2
     }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters >
+        <Toolbar disableGutters>
           <Typography
-            onClick={() => navigate("/")}
             variant="h6"
             noWrap
             component="a"
+            href="/"
             sx={{
               mr: 2,
               flexGrow: 1,
@@ -75,10 +71,10 @@ function ResponsiveAppBar() {
             ActivityHUB
           </Typography>
           <Typography
-          onClick={() => navigate("/")}
             variant="h5"
             noWrap
             component="a"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -92,57 +88,53 @@ function ResponsiveAppBar() {
             ActivityHUB
           </Typography>
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
               <Button
-                key={"Activities"}
-                onClick={() => navigate("/activity")}
+                key={page}
+                onClick={() => navigate(isAdmin ? "/adminActivity" : "/activities")}
                 sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
               >
-                ACTIVITIES
+                {page}
               </Button>
-            </Box>
+            ))}
             {
               isAdmin
-                ?
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                  <Button
-                    key={"Users"}
-                    onClick={() => navigate("/users")}
-                    sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
-                  >
-                    USERS
-                  </Button>
-                </Box>
+                ? <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Button
+                      key={"Users"}
+                      onClick={() => navigate("/users")}
+                      sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                    >
+                      USERS
+                    </Button>
+                  </Box>
                 : null
             }
             {
               userLoggedIn
-                ?
-                <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                  <Button
-                    key={"Logout"}
-                    onClick={(e) => onLogout(e)}
+                ? <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Button
+                      key={"Logout"}
+                      onClick={(e) => onLogout(e)}
+                      sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                    >
+                      Logout
+                    </Button>
+                    <Button
+                      key={"Profile"}
+                      onClick={() => navigate("/profile")}
+                      sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
+                    >
+                      <AccountCircleIcon sx={{ color: 'black' }} fontSize='large' />
+                    </Button>
+                  </Box>
+                : <Button
+                    key={"Login"}
+                    onClick={() => navigate("/login")}
                     sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
                   >
-                    Logout
+                    Login
                   </Button>
-                  <Button
-                    key={"Profile"}
-                    onClick={() => navigate("/profile")}
-                    sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
-                  >
-                    <AccountCircleIcon sx={{ color: 'black' }} fontSize='large' />
-                  </Button>
-                </Box>
-
-                :
-                <Button
-                  key={"Login"}
-                  onClick={() => navigate("/login")}
-                  sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
-                >
-                  Login
-                </Button>
             }
           </Box>
 
@@ -176,37 +168,27 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem
-                key={"Login"}
-                onClick={() => navigate("/activities")}>
-                <Typography textAlign="center">Activities</Typography>
-              </MenuItem>
-              <MenuItem
-                key={"Login"}
-                onClick={() => navigate("/users")}>
-                <Typography textAlign="center">Users</Typography>
-              </MenuItem>
-              {
-                userLoggedIn
-                  ?
-                  <MenuItem
-                    key={"Login"}
-                    onClick={(e) => onLogout(e)}>
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => {
+                  navigate(isAdmin ? "/adminActivity" : "/activities");
+                  handleCloseNavMenu();
+                }}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+              {userLoggedIn
+                ? <MenuItem onClick={(e) => { onLogout(e); handleCloseNavMenu(); }}>
                     <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
-                  :
-                  <MenuItem
-                    key={"Login"}
-                    onClick={() => navigate("/login")}>
+                : <MenuItem onClick={() => { navigate("/login"); handleCloseNavMenu(); }}>
                     <Typography textAlign="center">Login</Typography>
-                  </MenuItem>
-              }
+                  </MenuItem>}
             </Menu>
           </Box>
-
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;

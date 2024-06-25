@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, TextField, Select, MenuItem, InputLabel, FormControl, FormHelperText } from "@mui/material";
 
-
 const ActivityFormWidget = ({
   initialData,
   setActivityModal,
@@ -14,18 +13,17 @@ const ActivityFormWidget = ({
 
   const validateInput = (name, value) => {
     let error = '';
-  
+
     if (typeof value !== 'string') {
       value = value.toString();
     }
-  
+
     if (value.trim() === '') {
       error = 'This field is required';
     }
-  
+
     return error;
   };
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +46,7 @@ const ActivityFormWidget = ({
   };
 
   const handleFormSubmit = () => {
-    const fieldsToValidate = ['activityName', 'description', 'venue', 'category' ,'startDateTime', 'endDateTime', 'maxParticipants'];
+    const fieldsToValidate = ['activityName', 'description', 'venue', 'category', 'startDateTime', 'endDateTime', 'maxParticipants'];
     let allValid = true;
     const newErrors = {};
 
@@ -68,6 +66,21 @@ const ActivityFormWidget = ({
     }
   };
 
+  const getMinStartDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    return today.toISOString().slice(0, 16);
+  };
+
+  const getMinEndDate = () => {
+    if (formValues.startDateTime) {
+      const startDate = new Date(formValues.startDateTime);
+      startDate.setMinutes(startDate.getMinutes() + 1);
+      return startDate.toISOString().slice(0, 16);
+    }
+    return getMinStartDate();
+  };
+
   return (
     <Box
       sx={{
@@ -75,7 +88,7 @@ const ActivityFormWidget = ({
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: { xs: '90%', sm: '80%', md: '60%', lg: '50%' }, // Responsive width
+        width: { xs: '90%', sm: '80%', md: '60%', lg: '50%' },
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -85,7 +98,6 @@ const ActivityFormWidget = ({
       <Typography variant="h6">
         {isEditMode ? 'Edit Activity' : 'Add Activity'}
       </Typography>
-      {console.log('formValues:', typeof formValues.activityName)}
       <TextField
         margin="normal"
         fullWidth
@@ -146,6 +158,9 @@ const ActivityFormWidget = ({
         InputLabelProps={{
           shrink: true,
         }}
+        inputProps={{
+          min: getMinStartDate()
+        }}
         value={formValues.startDateTime}
         onChange={handleInputChange}
         error={Boolean(errors.startDateTime)}
@@ -160,6 +175,9 @@ const ActivityFormWidget = ({
         type="datetime-local"
         InputLabelProps={{
           shrink: true,
+        }}
+        inputProps={{
+          min: getMinEndDate()
         }}
         value={formValues.endDateTime}
         onChange={handleInputChange}
@@ -188,7 +206,7 @@ const ActivityFormWidget = ({
         </Button>
         <Button
           variant="contained"
-          color="indigo"
+          color="primary"
           onClick={handleFormSubmit}
         >
           {isEditMode ? 'Update Activity' : 'Add Activity'}

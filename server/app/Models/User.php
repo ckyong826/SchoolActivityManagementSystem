@@ -14,12 +14,14 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
     protected $primaryKey = 'userID';
-    public function registrations(){
-        return $this->hasMany(Registration::class);
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class, 'userID');
     }
 
-    public function profile (){
-        return $this->hasOne(Profile::class);
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'userID');
     }
 
     protected $fillable = [

@@ -9,7 +9,22 @@ class Profile extends Model
 {
     use HasFactory;
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    protected $primaryKey = 'profileID';
+
+    protected $fillable = [
+        'userID',
+        'firstName',
+        'lastName',
+        'matrikNumber',
+        'academicYear',
+        'phoneNumber',
+        'address',
+        'dateOfBirth',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID');
     }
 }
+

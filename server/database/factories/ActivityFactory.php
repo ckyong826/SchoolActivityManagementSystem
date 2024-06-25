@@ -17,13 +17,12 @@ class ActivityFactory extends Factory
     public function definition(): array
     {
         return [
-            'activityName' => $this->faker->sentence(),
+            'activityName' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
-            'categoryTag' => $this->faker->randomElement(['sports', 'music']),
-            'startDate' => $this->faker->date(),
-            'endDate' => $this->faker->date(),
-            
-            
+            'venue' => $this->faker->address(),
+            'startDateTime' => $this->faker->dateTimeBetween('now', '+1 week'),
+            'endDateTime' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
+            'maxParticipants' => $this->faker->numberBetween(1, 100),
         ];
     }
 }
