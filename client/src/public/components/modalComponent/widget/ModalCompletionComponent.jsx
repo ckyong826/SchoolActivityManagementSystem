@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import SuccessAnimation from './useSuccessAnimation';
 import ButtonComponent from './useButton';
 import useGetCurrentUser from '../../../../hooks/useGetCurrentUser';
-import axiosClient from '../../../../axios-client';
 import Notification from './useNotification';
+import axiosClient from '../../../../axios-client';
 
 const ModalCompletionComponent = (props) => {
   const user = useGetCurrentUser();
@@ -17,7 +17,7 @@ const ModalCompletionComponent = (props) => {
       regDate : new Date().toISOString(),
     };
     try {
-      await axios.post('/registration', payload);
+      await axiosClient.post('/registration', payload);
       console.log('Joined activity successfully');
       props.setStep(3);
     } catch (error) {

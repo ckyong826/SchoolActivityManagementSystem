@@ -27,6 +27,7 @@ const theme = createTheme({
 const Homepage = () => {
   const user = useGetCurrentUser();
   const [loading, setLoading] = React.useState(false);
+  const [registration, setRegistration] = useState([]);
   const [activity, setActivity] = useState([
     {
       activityName: '',
@@ -40,6 +41,20 @@ const Homepage = () => {
   ]);
 
   const [activityList, setActivityList] = useState([]);
+
+  useEffect(() => {
+    const fetchRegestration = async () => {
+      try {
+        const response = await axiosClient.get(`/registration/${user?.userID}`);
+        setRegistration(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching reservations:', error.response?.data || error.message);
+      }
+    }
+    fetchRegestration();
+  }, [user]);
+
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -69,9 +84,12 @@ const Homepage = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const filteredAndSearchedActivities = activityList.filter(activity => {
+    const isRegistered = registration.some(reg => reg.activityID === activity.activityID);
+    
     return (filter === 'All' || activity.category === filter) &&
-           activity.activityName.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+           activity.activityName.toLowerCase().includes(searchQuery.toLowerCase()) &&
+           !isRegistered;
+});
 
   return (
     <ThemeProvider theme={theme}>

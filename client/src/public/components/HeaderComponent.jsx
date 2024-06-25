@@ -18,6 +18,7 @@ import userConsts from '../../consts/common-consts';
 
 
 function ResponsiveAppBar() {
+  const pages = ['Activity'];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
   const { token, setToken, user, setUser } = useStateContext();
