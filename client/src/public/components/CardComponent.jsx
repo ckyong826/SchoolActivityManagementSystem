@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import ModalActivityComponent from "./modalComponent/ModalActivityComponent";
 import '../../App.css';
+import { useStateContext } from "../../contexts/contextProvider";
+import { Navigate } from "react-router-dom";
+import userConsts from "../../consts/common-consts";
+import { useNavigate } from "react-router-dom";
 
 const SquishyCard = (props) => {
   return (
@@ -14,11 +18,19 @@ const SquishyCard = (props) => {
 };
 
 const Card = ({props}) => {
+  const { token } = useStateContext();
+  // const user = useGetCurrentUser();
+  const navigate = useNavigate();
+  const userLoggedIn = !!token ? true : false;
   const [open, handleOpen] = useState(false);
   const [step, setStep] = useState(0);
   const setOpen = () => {
-    handleOpen(true);
-    setStep(0);
+    if (!userLoggedIn) {
+      navigate("/login");
+    } else {
+      handleOpen(true);
+      setStep(0);
+    }
   }
   return (
     <motion.div
