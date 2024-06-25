@@ -9,10 +9,15 @@ class Registration extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'registrationID';
+
     protected $fillable = [
         'userID',
         'activityID',
         'regDate',
+    ];
+    protected $casts = [
+        'regDate' => 'datetime',
     ];
 }
 
