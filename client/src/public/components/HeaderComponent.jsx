@@ -14,13 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
-import { useStateContext } from '../contexts/contextProvider';
-import axiosClient from '../axios-client';
-import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import userConsts from '../consts/common-consts';
+import { useStateContext } from '../../contexts/contextProvider';
+import axiosClient from '../../axios-client';
+import  userConsts  from '../../consts/common-consts';
 
-
-const pages = ['Activity'];
+const pages = ['Activity']
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -97,7 +95,7 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => navigate("/activity")}
                 sx={{ color: 'black', display: 'block', fontSize: 18, ml: 3 }}
               >
                 {page}

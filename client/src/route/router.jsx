@@ -47,14 +47,7 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup/>
       },
-      {
-        path: '/activity',
-        element: <AdminActivityPage/>
-      },
-      {
-        path: '/activity/:activityID',
-        element: <ActivityDetailsPage/>
-      },
+      
 
     ]
   },
@@ -65,6 +58,14 @@ const router = createBrowserRouter([
       {
         path: '/users',
         element: <Users/>
+      },
+      {
+        path: '/activity',
+        element: <AdminActivityPage/>
+      },
+      {
+        path: '/activity/:activityID',
+        element: <ActivityDetailsPage/>
       },
     ]
   },

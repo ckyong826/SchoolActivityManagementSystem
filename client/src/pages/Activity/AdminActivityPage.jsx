@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Box, Container } from '@mui/material';
-import ResponsiveAppBar from '../../public/HeaderComponent';
+import ResponsiveAppBar from '../../public/components/HeaderComponent';
 import AddActivityModal from './Widget/AddActivityModal';
 import axiosClient from '../../axios-client';
 import ActivityTableWidget from './Widget/ActivityTableWidget';
