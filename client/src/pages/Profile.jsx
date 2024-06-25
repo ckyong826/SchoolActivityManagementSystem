@@ -9,6 +9,7 @@ import CakeIcon from '@mui/icons-material/Cake';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ResponsiveAppBar from '../public/HeaderComponent';
 import { format, isBefore, isAfter } from 'date-fns';
+import '../axios-client';
 
 const ProfileSidebar = styled(Box)(({ theme }) => ({
   width: 350,

@@ -8,6 +8,7 @@ import useGetCurrentUser from '../hooks/useGetCurrentUser';
 import {Skeleton } from '@mui/material';
 import Notification from '../public/modal/widget/useNotification';
 import { useStateContext } from '../contexts/contextProvider';
+import '../axios-client';
 
 const dummyData = [
   { tag: "Academic", title: "Dummy Event 1", description: "This is the description for Dummy Event 1" },
