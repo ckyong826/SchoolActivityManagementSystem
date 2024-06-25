@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Activity;
+use App\Models\Profile;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,19 @@ class ActivityController extends Controller
     public function index()
     {
         $activities = Activity::with('users')->get();
-        return response()->json($activities);
+
+        $activitiesWithProfiles = $activities->map(function ($activity) {
+            $usersWithProfiles = $activity->users->map(function ($user) {
+                $profile = Profile::where('userID', $user->userID)->first();
+                $user->profile = $profile;
+                return $user;
+            });
+
+            $activity->setRelation('users', $usersWithProfiles);
+            return $activity;
+        });
+
+        return response()->json($activitiesWithProfiles);
     }
 
     // retrieve a single activity with users
@@ -33,6 +46,17 @@ class ActivityController extends Controller
         if (!$activity) {
             return response()->json(['message' => 'Activity not found'], 404);
         }
+
+        // Fetch profiles for each user
+        $usersWithProfiles = $activity->users->map(function ($user) {
+            $profile = Profile::where('userID', $user->userID)->first();
+            $user->profile = $profile;
+            return $user;
+        });
+
+        // Replace the users relation with the new collection that includes profiles
+        $activity->setRelation('users', $usersWithProfiles);
+
         return response()->json($activity);
     }
 

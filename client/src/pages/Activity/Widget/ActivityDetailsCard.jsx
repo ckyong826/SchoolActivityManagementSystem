@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const ActivityDetailsCard = ({ activity }) => {
     return (
         <Box sx={{ padding: 4 }}>
+            {console.log(activity)}
             <Container>
                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Card sx={{ maxWidth: 900, width: '100%', borderRadius: 3, boxShadow: 4, border: '1px solid #ccc', backgroundColor: 'white', padding: 3 }}>

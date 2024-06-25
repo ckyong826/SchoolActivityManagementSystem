@@ -65,11 +65,11 @@ const router = createBrowserRouter([
         element: <Users/>
       },
       {
-        path: '/activity',
+        path: '/adminActivity',
         element: <AdminActivityPage/>
       },
       {
-        path: '/activity/:activityID',
+        path: '/adminActivity/:activityID',
         element: <ActivityDetailsPage/>
       },
     ]

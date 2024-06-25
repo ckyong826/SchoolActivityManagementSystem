@@ -8,6 +8,7 @@ import ViewActivityModal from "./ViewActivityModal";
 import EditActivityModal from "./EditActivityModal";
 import DeleteActivityModal from "./DeleteActivityModal";
 import PersonIcon from '@mui/icons-material/Person';
+import ParticipantsListModal from "./ParticipantsListModal";
 
 const ActivityTableWidget = ({
     activity,
@@ -19,6 +20,8 @@ const ActivityTableWidget = ({
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [activityModal, setActivityModal] = useState(false);
     const [viewDialogOpen, setViewDialogOpen] = useState(false);
+    const [participantsDialogOpen, setParticipantsDialogOpen] = useState(false);
+    const [selectedParticipants, setSelectedParticipants] = useState([]);
     const [selectedActivityID, setSelectedActivityID] = useState(null);
     const [selectedActivity, setSelectedActivity] = useState(null);
 
@@ -41,11 +44,11 @@ const ActivityTableWidget = ({
                     <IconButton onClick={() => openEditModal(params.row.activityID)}>
                         <EditIcon color="indigo" />
                     </IconButton>
+                    <IconButton onClick={() => openParticipantsDialog(params.row.activityID)}>
+                        <PersonIcon color="indigo" />
+                    </IconButton>
                     <IconButton onClick={() => openDeleteModal(params.row.activityID)}>
                         <DeleteIcon color="error" />
-                    </IconButton>
-                    <IconButton>
-                        <PersonIcon color="indigo" />
                     </IconButton>
 
                 </div>
@@ -104,6 +107,21 @@ const ActivityTableWidget = ({
     const handleUpdateActivity = () => {
         updateActivity();
         handleCloseEditModal();
+    }
+
+    // View participants modal
+    const openParticipantsDialog = (activityID) => {
+        activityList.forEach((activity) => {
+            if (activity.activityID === activityID) {
+                setSelectedParticipants(activity.users);
+            }
+        });
+        setParticipantsDialogOpen(true);
+    };
+
+    const closeParticipantsDialog = () => {
+        setParticipantsDialogOpen(false);
+        setSelectedParticipants([]);
     }
 
     // View activity dialog
@@ -179,6 +197,11 @@ const ActivityTableWidget = ({
                 handleClose={handleCloseDeleteModal}
                 handleConfirm={handleConfirmDelete}
                 activityID={selectedActivityID}
+            />
+            <ParticipantsListModal
+                open={participantsDialogOpen}
+                handleClose={closeParticipantsDialog}
+                participantsList={selectedParticipants}
             />
         </Box>
     );

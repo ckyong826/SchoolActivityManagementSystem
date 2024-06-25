@@ -1,5 +1,6 @@
 import { Outlet,Navigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/contextProvider";
+import ResponsiveAppBar from "../components/HeaderComponent";
 
 const GuestLayout = () => {
     const {user, token} = useStateContext();
@@ -8,6 +9,7 @@ const GuestLayout = () => {
     }
     return ( 
         <div>
+            <ResponsiveAppBar/>
             <Outlet/>
         </div>
      );
