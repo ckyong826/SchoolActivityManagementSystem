@@ -77,4 +77,20 @@ class RegistrationController extends Controller
         $registration->delete();
         return response('', 204);
     }
+
+    // Get all registrations for a specific user
+    public function userRegistrations($userID)
+    {
+        return response()->json(
+            Registration::where('userID', $userID)->get()->map(function ($registration) {
+                return [
+                    'registrationID' => $registration->registrationID,
+                    'userID' => $registration->userID,
+                    'activityID' => $registration->activityID,
+                    'regDate' => $registration->regDate->format('Y-m-d H:i:s'),
+                ];
+            })
+        );
+    }
+
 }

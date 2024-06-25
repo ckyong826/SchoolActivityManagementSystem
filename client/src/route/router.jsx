@@ -6,11 +6,12 @@ import Users from "../pages/Users/Users";
 import DefaultLayout from "../public/layout/DefaultLayout";
 import GuestLayout from "../public/layout/GuestLayout";
 import Signup from "../pages/Auth/Signup";
-import Profile from "../pages/Profile";
+import Profile from "../pages/Profile/Profile";
+import EditProfile from "../pages/EditProfile";
 import AdminLayout from "../public/layout/AdminLayout";
+import Activities from "../pages/Activities/Activities";
 import AdminActivityPage from "../pages/Activity/AdminActivityPage";
 import ActivityDetailsPage from "../pages/Activity/ActivityDetailsPage";
-import Activities from "../pages/Activities/Activities";
 // export default function Router() {
 //   return (
 //     <>
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile/>
+      },
+      {
+        path: '/profile/edit',
+        element: <EditProfile/>
       },
       {
         path: '/activities',
