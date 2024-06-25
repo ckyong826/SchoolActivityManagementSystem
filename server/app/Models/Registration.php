@@ -9,6 +9,18 @@ class Registration extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'registrationID';
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function activity(){
+        return $this->belongsTo(Activity::class);
+    }
+    protected $casts = [
+        'regDate' => 'datetime',
+    ];
     protected $fillable = [
         'userID',
         'activityID',
