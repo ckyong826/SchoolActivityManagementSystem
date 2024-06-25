@@ -146,17 +146,17 @@ const Profile = () => {
     }
   }, [user]);
 
-  // const [filter, setFilter] = useState('All');
-  // const handleFilter = (e) => {
-  //   setFilter(e.target.value);
-  // };
+  const [filter, setFilter] = useState('All');
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+  };
 
-  // const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // const filteredAndSearchedActivities = activities.filter(activity => {
-  //   return (filter === 'All' || activity.category === filter) &&
-  //          activity.activityName.toLowerCase().includes(searchQuery.toLowerCase());
-  // });
+  const filteredAndSearchedActivities = activities.filter(activity => {
+    return (filter === 'All' || activity.category === filter) &&
+           activity.activityName.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   if (loading) {
     return (
@@ -181,11 +181,11 @@ const Profile = () => {
     );
   }
 
-  const upcomingActivities = activities.filter(activity =>
+  const upcomingActivities = filteredAndSearchedActivities.filter(activity =>
     isAfter(new Date(activity.endDateTime), today)
   );
 
-  const previousActivities = activities.filter(activity =>
+  const previousActivities = filteredAndSearchedActivities.filter(activity =>
     isBefore(new Date(activity.endDateTime), today)
   );
   
@@ -223,13 +223,13 @@ const Profile = () => {
           <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
             {user ? (
               <>
-              {/* <Box  sx={{height:100, display:"flex", justifyContent:'space-between',alignItems:'center', paddingX:24, flexDirection:{xs:'column',md:'row'}}}>
+              <Box  sx={{height:100, display:"flex", justifyContent:'space-between',alignItems:'center', paddingX:24, flexDirection:{xs:'column',md:'row'}}}>
                 <p className="text-4xl font-bold font-mono text-center" >Features</p>
                 <div className='flex flex-row justify-center gap-4 items-center'>
                   <SearchComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                   <FilterComponent filter={filter} handleFilter={handleFilter}/>
                 </div>
-              </Box> */}
+              </Box>
                 <Card>
                   <CardContent>
                     <Typography variant="h5" gutterBottom>
