@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useGetCurrentUser from '../../hooks/useGetCurrentUser';
-import { Box, Card, CardContent, Typography, Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Grid, Button } from '@mui/material';
+import { Box, Card, CardContent, Typography, Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Skeleton, Grid, Button, Tab } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
 import CakeIcon from '@mui/icons-material/Cake';
-import { format, isBefore, isAfter, set } from 'date-fns';
+import BadgeIcon from '@mui/icons-material/Badge';
+import SchoolIcon from '@mui/icons-material/School'
+;import VisibilityIcon from '@mui/icons-material/Visibility';
+import { format, isBefore, isAfter } from 'date-fns';
 import axiosClient from '../../axios-client';
+import ViewActivityModal from '../Activity/Widget/ViewActivityModal';
 import FilterComponent from '../../public/components/FilterComponent';
 import SearchComponent from '../../public/components/searchComponent';
+
+import { Link } from 'react-router-dom';
+
 
 const ProfileSidebar = styled(Box)(({ theme }) => ({
   width: 350,
@@ -106,14 +113,16 @@ const Profile = () => {
   const [activities, setActivities] = useState([]);
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState(null);
 
   const profileFields = [
-    { key: 'profileID', label: 'Profile ID' },
-    { key: 'userID', label: 'User ID' },
-    { key: 'firstName', label: 'First Name' },
-    { key: 'lastName', label: 'Last Name' },
-    { key: 'matrikNumber', label: 'Matrik Number' },
-    { key: 'academicYear', label: 'Academic Year' },
+    // { key: 'profileID', label: 'Profile ID'},
+    // { key: 'userID', label: 'User ID' },
+    { key: 'firstName', label: 'First Name', icon: <BadgeIcon color="inherit" />},
+    { key: 'lastName', label: 'Last Name' , icon: <BadgeIcon color="inherit" />},
+    { key: 'matrikNumber', label: 'Matrik Number' , icon: <SchoolIcon color="inherit" />},
+    { key: 'academicYear', label: 'Academic Year' , icon: <SchoolIcon color="inherit" />},
     { key: 'phoneNumber', label: 'Phone Number', icon: <PhoneIcon color="inherit" /> },
     { key: 'address', label: 'Address', icon: <HomeIcon color="inherit" /> },
     { key: 'dateOfBirth', label: 'Date of Birth', icon: <CakeIcon color="inherit" /> },
@@ -188,7 +197,20 @@ const Profile = () => {
   const previousActivities = filteredAndSearchedActivities.filter(activity =>
     isBefore(new Date(activity.endDateTime), today)
   );
-  
+  const openViewDialog = (activityID) => {
+    activities.forEach((activity) => {
+      if (activity.activityID === activityID) {
+        setSelectedActivity(activity);
+      }
+    });
+    setViewDialogOpen(true);
+  };
+
+  const closeViewDialog = () => {
+    setViewDialogOpen(false);
+    setSelectedActivity(null);
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
@@ -229,12 +251,10 @@ const Profile = () => {
           <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
             {user ? (
               <>
-              <Box  sx={{height:100, display:"flex", justifyContent:'space-between',alignItems:'center', paddingX:24, flexDirection:{xs:'column',md:'row'}}}>
-                <p className="text-4xl font-bold font-mono text-center" >Features</p>
-                <div className='flex flex-row justify-center gap-4 items-center'>
-                  <SearchComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
-                  <FilterComponent filter={filter} handleFilter={handleFilter}/>
-                </div>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <Typography variant="h4" gutterBottom> Activities </Typography>
+                <SearchComponent searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                <FilterComponent filter={filter} handleFilter={handleFilter} />
               </Box>
                 <Card>
                   <CardContent>
@@ -252,7 +272,7 @@ const Profile = () => {
                               <TableCell>Category Tag</TableCell>
                               <TableCell>Start Date</TableCell>
                               <TableCell>End Date</TableCell>
-                              <TableCell>Created By</TableCell>
+                              <TableCell>Actions</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -264,7 +284,11 @@ const Profile = () => {
                                 <TableCell>{activity.category}</TableCell>
                                 <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
-                                <TableCell>{activity.createdBy}</TableCell>
+                                {/* <TableCell>
+                                  <IconButton onClick={() => openViewDialog(activity.activityID)}>
+                                    <VisibilityIcon color="primary" />
+                                  </IconButton>
+                                </TableCell> */}
                               </TableRow>
                             ))}
                           </TableBody>
@@ -293,19 +317,16 @@ const Profile = () => {
                               <TableCell>Category Tag</TableCell>
                               <TableCell>Start Date</TableCell>
                               <TableCell>End Date</TableCell>
-                              <TableCell>Created By</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
                             {previousActivities.map(activity => (
                               <TableRow key={activity.activityID}>
-                                <TableCell>{activity.activityID}</TableCell>
                                 <TableCell>{activity.activityName}</TableCell>
                                 <TableCell>{activity.description}</TableCell>
                                 <TableCell>{activity.category}</TableCell>
                                 <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
-                                <TableCell>{activity.createdBy}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>

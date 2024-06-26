@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Grid, TextField, Typography, Paper } from '@mui/material';
+import { Box, Button, Grid, TextField, Typography, Paper, CircularProgress, InputAdornment, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { CalendarToday } from '@mui/icons-material';
 import ResponsiveAppBar from '../../public/components/HeaderComponent';
 import useGetCurrentUser from '../../hooks/useGetCurrentUser';
 import axiosClient from '../../axios-client';
@@ -31,12 +32,19 @@ const EditProfile = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dateInputRef = useRef(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axiosClient.get(`/profile/${user.userID}`);
         const userData = response.data;
+
+        // Format dateOfBirth to YYYY-MM-DD if it exists
+        const formattedDateOfBirth = userData.dateOfBirth
+          ? new Date(userData.dateOfBirth).toISOString().split('T')[0]
+          : '';
+
         setFormData({
           firstName: userData.firstName || '',
           lastName: userData.lastName || '',
@@ -44,7 +52,7 @@ const EditProfile = () => {
           academicYear: userData.academicYear || '',
           phoneNumber: userData.phoneNumber || '',
           address: userData.address || '',
-          dateOfBirth: userData.dateOfBirth || '',
+          dateOfBirth: formattedDateOfBirth,
         });
         setLoading(false);
       } catch (error) {
@@ -78,7 +86,13 @@ const EditProfile = () => {
     }
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
+  const handleDateClick = () => {
+    if (dateInputRef.current) {
+      dateInputRef.current.showPicker();
+    }
+  };
+
+  if (loading) return <Box display="flex" justifyContent="center" alignItems="center" height="100vh"><CircularProgress /></Box>;
 
   return (
     <Box>
@@ -141,7 +155,7 @@ const EditProfile = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} onClick={handleDateClick}>
               <TextField
                 label="Date of Birth"
                 name="dateOfBirth"
@@ -152,6 +166,7 @@ const EditProfile = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputRef={dateInputRef}
               />
             </Grid>
             {error && (

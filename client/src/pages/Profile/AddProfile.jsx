@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -30,6 +30,7 @@ const EditProfile = () => {
     dateOfBirth: '',
   });
   const [error, setError] = useState(null);
+  const dateInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +49,12 @@ const EditProfile = () => {
       navigate('/profile');
     } catch (error) {
       setError('Failed to save profile');
+    }
+  };
+
+  const handleDateClick = () => {
+    if (dateInputRef.current) {
+      dateInputRef.current.showPicker();
     }
   };
 
@@ -114,7 +121,7 @@ const EditProfile = () => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} onClick={handleDateClick}>
               <TextField
                 label="Date of Birth"
                 name="dateOfBirth"
@@ -125,6 +132,7 @@ const EditProfile = () => {
                 InputLabelProps={{
                   shrink: true,
                 }}
+                inputRef={dateInputRef}
               />
             </Grid>
             {error && (
