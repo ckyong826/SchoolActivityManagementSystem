@@ -214,9 +214,15 @@ const Profile = () => {
             <Skeleton variant="rectangular" width="100%" height={60} />
           )}
           <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="contained" color="primary" onClick={() => navigate('/profile/edit')}>
-              Edit Profile
-            </Button>
+          {profile ? (
+              <Button variant="contained" color="primary" onClick={() => navigate('/profile/edit')}>
+                Edit Profile
+              </Button>
+            ) : (
+              <Button variant="contained" color="primary" onClick={() => navigate('/profile/add')}>
+                Add Profile
+              </Button>
+            )}
           </Box>
         </ProfileSidebar>
         <ProfileContent>

@@ -7,7 +7,8 @@ import DefaultLayout from "../public/layout/DefaultLayout";
 import GuestLayout from "../public/layout/GuestLayout";
 import Signup from "../pages/Auth/Signup";
 import Profile from "../pages/Profile/Profile";
-import EditProfile from "../pages/EditProfile";
+import EditProfile from "../pages/Profile/EditProfile";
+import AddProfile from "../pages/Profile/AddProfile";
 import AdminLayout from "../public/layout/AdminLayout";
 import Activities from "../pages/Activities/Activities";
 import AdminActivityPage from "../pages/Activity/AdminActivityPage";
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/profile/edit',
         element: <EditProfile/>
+      },
+      {
+        path: '/profile/add',
+        element: <AddProfile/>
       },
       {
         path: '/activities',

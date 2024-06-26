@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Grid, TextField, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import ResponsiveAppBar from '../public/components/HeaderComponent';
-import useGetCurrentUser from '../hooks/useGetCurrentUser';
-import axiosClient from '../axios-client';
+import ResponsiveAppBar from '../../public/components/HeaderComponent';
+import useGetCurrentUser from '../../hooks/useGetCurrentUser';
+import axiosClient from '../../axios-client';
 
 // Styled components
 const EditProfileForm = styled(Paper)(({ theme }) => ({
