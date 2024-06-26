@@ -21,24 +21,35 @@ class ProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $userID)
     {
-        // Validate the request data
+        try{
+            // Validate the request data
         $validated = $request->validate([
-            'user_id' => 'required|integer',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'matrik_number' => 'required|string|max:255',
-            'academic_year' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'matrikNumber' => 'required|string|max:255',
+            'academicYear' => 'required|string|max:255',
+            'phoneNumber' => 'required|string|max:20',
             'address' => 'required|string|max:255',
-            'date_of_birth' => 'required|date',
+            'dateOfBirth' => 'required|date',
         ]);
+
+        // Add the user_id from the URL to the validated data
+        $validated['userID'] = $userID;
 
         // Create a new profile
         $profile = Profile::create($validated);
         return response()->json($profile, 201);
+        }
+
+        catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Server error: ' . $e->getMessage()], 500);
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -103,6 +114,8 @@ class ProfileController extends Controller
     }
 
 
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -134,4 +147,5 @@ class ProfileController extends Controller
         $activities = $profile->activities;
         return response()->json($activities);
     }
+
 }
