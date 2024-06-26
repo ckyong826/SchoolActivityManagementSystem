@@ -272,7 +272,6 @@ const Profile = () => {
                               <TableCell>Category Tag</TableCell>
                               <TableCell>Start Date</TableCell>
                               <TableCell>End Date</TableCell>
-                              <TableCell>Actions</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>
@@ -284,11 +283,6 @@ const Profile = () => {
                                 <TableCell>{activity.category}</TableCell>
                                 <TableCell>{format(new Date(activity.startDateTime), 'yyyy-MM-dd')}</TableCell>
                                 <TableCell>{format(new Date(activity.endDateTime), 'yyyy-MM-dd')}</TableCell>
-                                {/* <TableCell>
-                                  <IconButton onClick={() => openViewDialog(activity.activityID)}>
-                                    <VisibilityIcon color="primary" />
-                                  </IconButton>
-                                </TableCell> */}
                               </TableRow>
                             ))}
                           </TableBody>
